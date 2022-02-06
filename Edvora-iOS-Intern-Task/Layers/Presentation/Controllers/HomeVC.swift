@@ -118,10 +118,14 @@ extension HomeVC {
         // Constraint Configuration
         rootView.translatesAutoresizingMaskIntoConstraints = false
 
-        let leading = rootView.leadingAnchor.constraint(equalTo: view.leadingAnchor)
-        let trailing = rootView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
-        let top = rootView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor)
-        let bottom = rootView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
+        let leading = rootView.leadingAnchor
+            .constraint(equalTo: view.leadingAnchor)
+        let trailing = rootView.trailingAnchor
+            .constraint(equalTo: view.trailingAnchor)
+        let top = rootView.topAnchor
+            .constraint(equalTo: view.safeAreaLayoutGuide.topAnchor)
+        let bottom = rootView.bottomAnchor
+            .constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
         
         NSLayoutConstraint.activate([
             leading, trailing, top, bottom

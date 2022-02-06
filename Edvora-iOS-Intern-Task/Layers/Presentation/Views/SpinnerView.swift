@@ -136,7 +136,7 @@ extension SpinnerView {
     private func setupWrapperView() {
         wrapperView.clipsToBounds = true
         wrapperView.backgroundColor = .spinnerBackgroundColor
-        wrapperView.layer.cornerRadius = .cornerRadius
+        wrapperView.layer.cornerRadius = .spinnerViewCornerRadius
 
         // Constraint Configuration
         wrapperView.translatesAutoresizingMaskIntoConstraints = false
@@ -159,11 +159,14 @@ extension SpinnerView {
         activityIndicator.translatesAutoresizingMaskIntoConstraints = false
         
         let leading = activityIndicator.leadingAnchor
-            .constraint(equalTo: wrapperView.leadingAnchor, constant: .spinnerViewLeadingPadding)
+            .constraint(equalTo: wrapperView.leadingAnchor,
+                        constant: .spinnerViewLeadingPadding)
         let top = activityIndicator.topAnchor
-            .constraint(equalTo: wrapperView.topAnchor, constant: .spinnerViewTopPadding)
+            .constraint(equalTo: wrapperView.topAnchor,
+                        constant: .spinnerViewTopPadding)
         let bottom = activityIndicator.bottomAnchor
-            .constraint(equalTo: wrapperView.bottomAnchor, constant: .spinnerViewBottomPadding)
+            .constraint(equalTo: wrapperView.bottomAnchor,
+                        constant: .spinnerViewBottomPadding)
         
         NSLayoutConstraint.activate([
             leading, top, bottom
@@ -181,13 +184,17 @@ extension SpinnerView {
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
         
         let leading = titleLabel.leadingAnchor
-            .constraint(equalTo: activityIndicator.trailingAnchor, constant: .spinnerViewContentSpacing)
+            .constraint(equalTo: activityIndicator.trailingAnchor,
+                        constant: .spinnerViewContentSpacing)
         let trailing = titleLabel.trailingAnchor
-            .constraint(equalTo: wrapperView.trailingAnchor, constant: .spinnerViewTrailingPadding)
+            .constraint(equalTo: wrapperView.trailingAnchor,
+                        constant: .spinnerViewTrailingPadding)
         let top = titleLabel.topAnchor
-            .constraint(equalTo: wrapperView.topAnchor, constant: .spinnerViewTopPadding)
+            .constraint(equalTo: wrapperView.topAnchor,
+                        constant: .spinnerViewTopPadding)
         let bottom = titleLabel.bottomAnchor
-            .constraint(equalTo: wrapperView.bottomAnchor, constant: .spinnerViewBottomPadding)
+            .constraint(equalTo: wrapperView.bottomAnchor,
+                        constant: .spinnerViewBottomPadding)
         
         NSLayoutConstraint.activate([
             leading, trailing, top, bottom

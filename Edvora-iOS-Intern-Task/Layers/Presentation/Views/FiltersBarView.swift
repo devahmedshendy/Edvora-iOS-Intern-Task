@@ -20,8 +20,8 @@ final class FiltersBarView: UIView {
     
     // MARK: - Subviews
     
-    private var selectButton: SelectButton!
-    private var clearButton: UIButton!
+    private var filtersSelectButton: SelectButton!
+    private var clearFiltersButton: UIButton!
     
     // MARK: - inits
     
@@ -39,16 +39,16 @@ final class FiltersBarView: UIView {
     
     func setup() {
         // Create the Subviews
-        selectButton = SelectButton()
-        clearButton = UIButton()
+        filtersSelectButton = SelectButton()
+        clearFiltersButton = UIButton()
         
         // Add the Subviews
-        addSubview(selectButton)
-        addSubview(clearButton)
+        addSubview(filtersSelectButton)
+        addSubview(clearFiltersButton)
         
         // Setup the Subviews
-        setupSelectButton()
-        setupClearButton()
+        setupFiltersSelectButton()
+        setupClearFiltersButton()
         
         setupActions()
     }
@@ -56,14 +56,14 @@ final class FiltersBarView: UIView {
     // MARK: - Actions
     
     private func setupActions() {
-        selectButton.addGestureRecognizer(
+        filtersSelectButton.addGestureRecognizer(
             UITapGestureRecognizer(
                 target: self,
                 action: #selector(onFiltersSelectButtonTapped)
             )
         )
         
-        clearButton.addTarget(
+        clearFiltersButton.addTarget(
             self,
             action: #selector(onClearFiltersButtonTapped),
             for: .touchUpInside
@@ -81,7 +81,7 @@ final class FiltersBarView: UIView {
     // MARK: - Helpers
     
     func setClearButtonVisibility(isHidden: Bool) {
-        clearButton.isHidden = isHidden
+        clearFiltersButton.isHidden = isHidden
     }
     
 }
@@ -90,36 +90,45 @@ final class FiltersBarView: UIView {
 
 extension FiltersBarView {
     
-    private func setupSelectButton() {
-        selectButton.placeholder = "Filters"
+    private func setupFiltersSelectButton() {
+        filtersSelectButton.placeholder = "Filters"
         
         // Constraint Configuration
-        selectButton.translatesAutoresizingMaskIntoConstraints = false
+        filtersSelectButton.translatesAutoresizingMaskIntoConstraints = false
         
-        let leading = selectButton.leadingAnchor.constraint(equalTo: self.leadingAnchor)
-        let trailing = selectButton.trailingAnchor.constraint(equalTo: clearButton.leadingAnchor, constant: -20)
-        trailing.priority = .fittingSizeLevel
-        let top = selectButton.topAnchor.constraint(equalTo: self.topAnchor)
-        let bottom = selectButton.bottomAnchor.constraint(equalTo: self.bottomAnchor)
+        let leading = filtersSelectButton.leadingAnchor
+            .constraint(equalTo: self.leadingAnchor)
+        let top = filtersSelectButton.topAnchor
+            .constraint(equalTo: self.topAnchor)
+        let bottom = filtersSelectButton.bottomAnchor
+            .constraint(equalTo: self.bottomAnchor)
         
         NSLayoutConstraint.activate([
-            leading, trailing, top, bottom
+            leading, top, bottom
         ])
     }
     
-    private func setupClearButton() {
-        clearButton.isHidden = true
-        clearButton.setTitle("Clear Filter", for: .normal)
-        clearButton.setTitleColor(.white, for: .normal)
-        clearButton.layer.cornerRadius = .cornerRadius
-        clearButton.titleLabel?.font = .filtersBarClearButtonFont
-        clearButton.contentEdgeInsets = UIEdgeInsets(top: 4, left: 5, bottom: 4, right: 5)
+    private func setupClearFiltersButton() {
+        clearFiltersButton.isHidden = true
+        clearFiltersButton.setTitle("Clear Filter", for: .normal)
+        clearFiltersButton.setTitleColor(.white, for: .normal)
+        clearFiltersButton.titleLabel?.font = .filtersBarClearButtonFont
+        
+        clearFiltersButton.contentEdgeInsets = UIEdgeInsets(
+            top: 4,
+            left: 5,
+            bottom: 4,
+            right: 5
+        )
         
         // Constraint Configuration
-        clearButton.translatesAutoresizingMaskIntoConstraints = false
+        clearFiltersButton.translatesAutoresizingMaskIntoConstraints = false
         
-        let centerY = clearButton.centerYAnchor.constraint(equalTo: self.centerYAnchor)
-        let trailing = clearButton.leadingAnchor.constraint(equalTo: selectButton.trailingAnchor, constant: 20)
+        let centerY = clearFiltersButton.centerYAnchor
+            .constraint(equalTo: self.centerYAnchor)
+        let trailing = clearFiltersButton.leadingAnchor
+            .constraint(equalTo: filtersSelectButton.trailingAnchor,
+                        constant: .clearFiltersButtonLeadingPadding)
         
         NSLayoutConstraint.activate([
             centerY, trailing

@@ -18,8 +18,8 @@ final class UniSelectView: UIView {
     
     // MARK: - Subviews
     
-    private var clearButton: ClearButton!
-    private var doneButton: DoneButton!
+    private var clearTextButton: ClearTextButton!
+    private var doneTextButton: DoneTextButton!
     
     private var separatorView: HorizontalSeparatorView!
     
@@ -41,23 +41,23 @@ final class UniSelectView: UIView {
     
     func setup() {
         // Create the Subviews
-        clearButton = ClearButton()
-        doneButton = DoneButton()
+        clearTextButton = ClearTextButton()
+        doneTextButton = DoneTextButton()
         
         separatorView = HorizontalSeparatorView()
         tableView = UITableView()
         
         // Add the Subviews
-        addSubview(clearButton)
-        addSubview(doneButton)
+        addSubview(clearTextButton)
+        addSubview(doneTextButton)
         addSubview(separatorView)
         addSubview(tableView)
         
         
         // Setup the Subviews
         setupSelf()
-        setupClearButton()
-        setupDoneButton()
+        setupClearTextButton()
+        setupDoneTextButton()
         setupSeparatorView()
         setupTableView()
         
@@ -67,13 +67,13 @@ final class UniSelectView: UIView {
     // MARK: - Actions
     
     private func setupActions() {
-        clearButton.addTarget(
+        clearTextButton.addTarget(
             self,
             action: #selector(onClearButtonTapped),
             for: .touchUpInside
         )
         
-        doneButton.addTarget(
+        doneTextButton.addTarget(
             self,
             action: #selector(onDoneButtonTapped),
             for: .touchUpInside
@@ -82,7 +82,7 @@ final class UniSelectView: UIView {
     
     @objc private func onClearButtonTapped() {
         selectedOption = ""
-        clearButton.isHidden = true
+        clearTextButton.isHidden = true
         
         tableView
             .indexPathsForSelectedRows?
@@ -130,13 +130,13 @@ extension UniSelectView: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         selectedOption = options[indexPath.row]
         
-        clearButton.isHidden = false
+        clearTextButton.isHidden = false
     }
     
     func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
         selectedOption = ""
         
-        clearButton.isHidden = true
+        clearTextButton.isHidden = true
     }
     
 }
@@ -172,31 +172,39 @@ extension UniSelectView {
     
     private func setupSelf() {
         clipsToBounds = true
-        backgroundColor = .filtersBackgroundColor
-        layer.cornerRadius = .filterViewCornerRadius
+        backgroundColor = .popupBackgroundColor
+        layer.cornerRadius = .selectViewCornerRadius
     }
     
-    private func setupClearButton() {
-        clearButton.isHidden = true
+    private func setupClearTextButton() {
+        clearTextButton.isHidden = true
         
         // Constraint Configuration
-        clearButton.translatesAutoresizingMaskIntoConstraints = false
+        clearTextButton.translatesAutoresizingMaskIntoConstraints = false
         
-        let leading = clearButton.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 20)
-        let top = clearButton.topAnchor.constraint(equalTo: self.topAnchor, constant: 15)
+        let leading = clearTextButton.leadingAnchor
+            .constraint(equalTo: self.leadingAnchor,
+                        constant: .selectViewContentLeadingPadding)
+        let top = clearTextButton.topAnchor
+            .constraint(equalTo: self.topAnchor,
+                        constant: .selectViewContentTopPadding)
         
         NSLayoutConstraint.activate([
             leading, top
         ])
     }
     
-    private func setupDoneButton() {
+    private func setupDoneTextButton() {
         
         // Constraint Configuration
-        doneButton.translatesAutoresizingMaskIntoConstraints = false
+        doneTextButton.translatesAutoresizingMaskIntoConstraints = false
         
-        let trailing = doneButton.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -20)
-        let top = doneButton.topAnchor.constraint(equalTo: self.topAnchor, constant: 15)
+        let trailing = doneTextButton.trailingAnchor
+            .constraint(equalTo: self.trailingAnchor,
+                        constant: .selectContentTrailingPadding)
+        let top = doneTextButton.topAnchor
+            .constraint(equalTo: self.topAnchor,
+                        constant: .selectViewContentTopPadding)
         
         NSLayoutConstraint.activate([
             trailing, top
@@ -208,9 +216,15 @@ extension UniSelectView {
         // Constraint Configuration
         separatorView.translatesAutoresizingMaskIntoConstraints = false
         
-        let leading = separatorView.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 15)
-        let trailing = separatorView.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -15)
-        let top = separatorView.topAnchor.constraint(equalTo: doneButton.bottomAnchor, constant: 5)
+        let leading = separatorView.leadingAnchor
+            .constraint(equalTo: self.leadingAnchor,
+                        constant: .selectViewSeparatorLeadingPadding)
+        let trailing = separatorView.trailingAnchor
+            .constraint(equalTo: self.trailingAnchor,
+                        constant: .selectViewSeparatorTrailingPadding)
+        let top = separatorView.topAnchor
+            .constraint(equalTo: doneTextButton.bottomAnchor,
+                        constant: .selectViewSeparatorTopPadding)
         
         NSLayoutConstraint.activate([
             leading, trailing, top
@@ -230,10 +244,16 @@ extension UniSelectView {
         // Constraint Configuration
         tableView.translatesAutoresizingMaskIntoConstraints = false
         
-        let leading = tableView.leadingAnchor.constraint(equalTo: separatorView.leadingAnchor)
-        let trailing = tableView.trailingAnchor.constraint(equalTo: separatorView.trailingAnchor)
-        let top = tableView.topAnchor.constraint(equalTo: separatorView.bottomAnchor, constant: 10)
-        let bottom = tableView.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -20)
+        let leading = tableView.leadingAnchor
+            .constraint(equalTo: separatorView.leadingAnchor)
+        let trailing = tableView.trailingAnchor
+            .constraint(equalTo: separatorView.trailingAnchor)
+        let top = tableView.topAnchor
+            .constraint(equalTo: separatorView.bottomAnchor,
+                        constant: .selectViewTableTopPadding)
+        let bottom = tableView.bottomAnchor
+            .constraint(equalTo: self.bottomAnchor,
+                        constant: .selectContentTrailingPadding)
         
         NSLayoutConstraint.activate([
             leading, trailing, top, bottom

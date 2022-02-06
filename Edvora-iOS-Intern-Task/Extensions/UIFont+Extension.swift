@@ -9,6 +9,12 @@ import UIKit
 
 extension UIFont {
     
+    // MARK: - HomeRootView
+    
+    static var noRecordTitleFont: UIFont {
+        systemFont(ofSize: UIDevice.iPad ? 24 : 20, weight: .bold)
+    }
+    
     // MARK: - ProductsHeaderView
     
     static var productsHeaderFont: UIFont {

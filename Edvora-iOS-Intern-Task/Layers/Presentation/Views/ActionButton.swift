@@ -32,7 +32,7 @@ class ActionButton: UIButton {
 
         titleLabel?.font = .actionButtonTitleFont
         
-        layer.cornerRadius = .cornerRadius
+        layer.cornerRadius = .actionButtonCornerRadius
         
         contentEdgeInsets = UIEdgeInsets(
             top: 8,

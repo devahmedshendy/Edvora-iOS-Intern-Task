@@ -1,5 +1,5 @@
 //
-//  DoneButton.swift
+//  DoneTextButton.swift
 //  Edvora-iOS-Intern-Task
 //
 //  Created by Ahmed Shendy on 2/5/22.
@@ -7,7 +7,7 @@
 
 import UIKit
 
-final class DoneButton: TextButton {
+final class DoneTextButton: TextButton {
     
     // MARK: - Setup
     
@@ -15,7 +15,7 @@ final class DoneButton: TextButton {
         super.setup()
         
         setTitle("Done", for: .normal)
-        setTitleColor(.doneColor, for: .normal)
+        setTitleColor(.doneTextColor, for: .normal)
     }
     
 }

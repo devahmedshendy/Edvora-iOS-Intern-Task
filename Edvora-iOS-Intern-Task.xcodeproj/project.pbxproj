@@ -15,8 +15,8 @@
 		64817A6527AEBDDE0040BA81 /* FiltersPopupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64817A6427AEBDDE0040BA81 /* FiltersPopupView.swift */; };
 		64817A7A27AEF3FA0040BA81 /* MultiSelectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64817A7927AEF3FA0040BA81 /* MultiSelectView.swift */; };
 		64817A7D27AEF4360040BA81 /* TextButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64817A7C27AEF4360040BA81 /* TextButton.swift */; };
-		64817A8027AEF4A80040BA81 /* DoneButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64817A7F27AEF4A80040BA81 /* DoneButton.swift */; };
-		64817A8327AEF4C10040BA81 /* ClearButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64817A8227AEF4C10040BA81 /* ClearButton.swift */; };
+		64817A8027AEF4A80040BA81 /* DoneTextButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64817A7F27AEF4A80040BA81 /* DoneTextButton.swift */; };
+		64817A8327AEF4C10040BA81 /* ClearTextButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64817A8227AEF4C10040BA81 /* ClearTextButton.swift */; };
 		64817A8727AEF88E0040BA81 /* HorizontalSeparatorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64817A8627AEF88E0040BA81 /* HorizontalSeparatorView.swift */; };
 		64CA1E8A27AF2CF4009E172D /* UniSelectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64CA1E8927AF2CF4009E172D /* UniSelectView.swift */; };
 		64CA1E8D27AF8F9D009E172D /* ImageVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64CA1E8C27AF8F9D009E172D /* ImageVM.swift */; };
@@ -64,8 +64,8 @@
 		64817A6427AEBDDE0040BA81 /* FiltersPopupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FiltersPopupView.swift; sourceTree = "<group>"; };
 		64817A7927AEF3FA0040BA81 /* MultiSelectView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultiSelectView.swift; sourceTree = "<group>"; };
 		64817A7C27AEF4360040BA81 /* TextButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextButton.swift; sourceTree = "<group>"; };
-		64817A7F27AEF4A80040BA81 /* DoneButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DoneButton.swift; sourceTree = "<group>"; };
-		64817A8227AEF4C10040BA81 /* ClearButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClearButton.swift; sourceTree = "<group>"; };
+		64817A7F27AEF4A80040BA81 /* DoneTextButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DoneTextButton.swift; sourceTree = "<group>"; };
+		64817A8227AEF4C10040BA81 /* ClearTextButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClearTextButton.swift; sourceTree = "<group>"; };
 		64817A8627AEF88E0040BA81 /* HorizontalSeparatorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HorizontalSeparatorView.swift; sourceTree = "<group>"; };
 		64CA1E8927AF2CF4009E172D /* UniSelectView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UniSelectView.swift; sourceTree = "<group>"; };
 		64CA1E8C27AF8F9D009E172D /* ImageVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageVM.swift; sourceTree = "<group>"; };
@@ -166,8 +166,8 @@
 				64817A7927AEF3FA0040BA81 /* MultiSelectView.swift */,
 				64CA1EBB27B06B85009E172D /* SelectViewCell.swift */,
 				64817A7C27AEF4360040BA81 /* TextButton.swift */,
-				64817A7F27AEF4A80040BA81 /* DoneButton.swift */,
-				64817A8227AEF4C10040BA81 /* ClearButton.swift */,
+				64817A7F27AEF4A80040BA81 /* DoneTextButton.swift */,
+				64817A8227AEF4C10040BA81 /* ClearTextButton.swift */,
 				64817A8627AEF88E0040BA81 /* HorizontalSeparatorView.swift */,
 				64CA1E9F27B028B1009E172D /* SpinnerView.swift */,
 				64CA1EA527B02B53009E172D /* LoadingSpinnerView.swift */,
@@ -394,12 +394,12 @@
 				64CA1EB927B05C1C009E172D /* NSCollectionLayoutDimension+Extension.swift in Sources */,
 				64E4D12727ADEB6E0045F25B /* SceneDelegate.swift in Sources */,
 				64817A6227AEBD370040BA81 /* FiltersDto.swift in Sources */,
-				64817A8027AEF4A80040BA81 /* DoneButton.swift in Sources */,
+				64817A8027AEF4A80040BA81 /* DoneTextButton.swift in Sources */,
 				64E4D17827AE2C150045F25B /* EdvoraDataSource.swift in Sources */,
 				64CA1E9427AF90B6009E172D /* HttpDataSource.swift in Sources */,
 				64E4D17127AE2B610045F25B /* ProductsUseCase.swift in Sources */,
 				64E4D17427AE2BBF0045F25B /* ApiDataSource.swift in Sources */,
-				64817A8327AEF4C10040BA81 /* ClearButton.swift in Sources */,
+				64817A8327AEF4C10040BA81 /* ClearTextButton.swift in Sources */,
 				64817A5F27AEAA240040BA81 /* String+Extension.swift in Sources */,
 				64CA1E8A27AF2CF4009E172D /* UniSelectView.swift in Sources */,
 				64CA1E9727AF9115009E172D /* NativeHttpDataSource.swift in Sources */,

@@ -72,10 +72,14 @@ extension SelectButton {
     
     private func setupSelf() {
         clipsToBounds = true
-        backgroundColor = .formInputBackgroundColor
-        layer.cornerRadius = .cornerRadius
+        backgroundColor = .selectButtonBackgroundColor
+        layer.cornerRadius = .selectButtonCornerRadius
         
-        let width = widthAnchor.constraint(equalToConstant: UIScreen.main.bounds.width * 0.40)
+        let width = widthAnchor.constraint(
+            equalToConstant: UIDevice.iPad
+                ? UIScreen.main.bounds.width * 0.40
+                : UIScreen.main.bounds.width * 0.50
+        )
 
         NSLayoutConstraint.activate([
             width
@@ -88,15 +92,22 @@ extension SelectButton {
         titleLabel.textAlignment = .left
         titleLabel.textColor = .white
         titleLabel.font = .selectButtonTitleFont
-        titleLabel.adjustsFontForContentSizeCategory = true
         
         // Constraint Configuration
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
         
-        let leading = titleLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: .selectButtonLeadingPadding)
-        let trailing = titleLabel.trailingAnchor.constraint(equalTo: iconView.leadingAnchor, constant: 5)
-        let top = titleLabel.topAnchor.constraint(equalTo: self.topAnchor, constant: .selectButtonTopPadding)
-        let bottom = titleLabel.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: .selectButtonBottomPadding)
+        let leading = titleLabel.leadingAnchor
+            .constraint(equalTo: self.leadingAnchor,
+                        constant: .selectButtonLeadingPadding)
+        let trailing = titleLabel.trailingAnchor
+            .constraint(equalTo: iconView.leadingAnchor,
+                        constant: .selectButtonTitleTrailingPadding)
+        let top = titleLabel.topAnchor
+            .constraint(equalTo: self.topAnchor,
+                        constant: .selectButtonTopPadding)
+        let bottom = titleLabel.bottomAnchor
+            .constraint(equalTo: self.bottomAnchor,
+                        constant: .selectButtonBottomPadding)
         
         NSLayoutConstraint.activate([
             leading, trailing, top, bottom
@@ -111,8 +122,11 @@ extension SelectButton {
         iconView.setContentHuggingPriority(.required, for: .horizontal)
         iconView.setContentCompressionResistancePriority(.required, for: .horizontal)
         
-        let centerY = iconView.centerYAnchor.constraint(equalTo: self.centerYAnchor)
-        let trailing = iconView.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: .selectButtonTrailingPadding)
+        let centerY = iconView.centerYAnchor
+            .constraint(equalTo: self.centerYAnchor)
+        let trailing = iconView.trailingAnchor
+            .constraint(equalTo: self.trailingAnchor,
+                        constant: .selectButtonTrailingPadding)
         
         NSLayoutConstraint.activate([
             centerY, trailing

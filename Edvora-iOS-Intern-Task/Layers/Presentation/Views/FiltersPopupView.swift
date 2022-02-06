@@ -253,10 +253,14 @@ extension FiltersPopupView {
         // Constraint Configuration
         overlayView.translatesAutoresizingMaskIntoConstraints = false
         
-        let leading = overlayView.leadingAnchor.constraint(equalTo: self.leadingAnchor)
-        let trailing = overlayView.trailingAnchor.constraint(equalTo: self.trailingAnchor)
-        let top = overlayView.topAnchor.constraint(equalTo: self.topAnchor)
-        let bottom = overlayView.bottomAnchor.constraint(equalTo: self.bottomAnchor)
+        let leading = overlayView.leadingAnchor
+            .constraint(equalTo: self.leadingAnchor)
+        let trailing = overlayView.trailingAnchor
+            .constraint(equalTo: self.trailingAnchor)
+        let top = overlayView.topAnchor
+            .constraint(equalTo: self.topAnchor)
+        let bottom = overlayView.bottomAnchor
+            .constraint(equalTo: self.bottomAnchor)
         
         NSLayoutConstraint.activate([
             leading, trailing, top, bottom
@@ -265,14 +269,16 @@ extension FiltersPopupView {
     
     private func setupContentView() {
         contentView.clipsToBounds = true
-        contentView.layer.cornerRadius = .filterViewCornerRadius
-        contentView.backgroundColor = .filtersBackgroundColor
+        contentView.layer.cornerRadius = .filterPopupCornerRadius
+        contentView.backgroundColor = .popupBackgroundColor
         
         // Constraint Configuration
         contentView.translatesAutoresizingMaskIntoConstraints = false
         
-        let centerX = contentView.centerXAnchor.constraint(equalTo: self.centerXAnchor)
-        let centerY = contentView.centerYAnchor.constraint(equalTo: self.centerYAnchor)
+        let centerX = contentView.centerXAnchor
+            .constraint(equalTo: self.centerXAnchor)
+        let centerY = contentView.centerYAnchor
+            .constraint(equalTo: self.centerYAnchor)
         
         NSLayoutConstraint.activate([
             centerX, centerY
@@ -284,14 +290,20 @@ extension FiltersPopupView {
         headerLabel.numberOfLines = 1
         headerLabel.textAlignment = .left
         headerLabel.font = .filtersPopupHeaderFont
-        headerLabel.textColor = UIColor(red: 0.646, green: 0.646, blue: 0.646, alpha: 1)
+        headerLabel.textColor = .filtersPopupHeaderColor
         
         // Constraint Configuration
         headerLabel.translatesAutoresizingMaskIntoConstraints = false
         
-        let leading = headerLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: .filtersViewContentLeadingPadding)
-        let trailing = headerLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: .filtersViewContentTrailingPadding)
-        let top = headerLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: .filtersViewContentTopPadding)
+        let leading = headerLabel.leadingAnchor
+            .constraint(equalTo: contentView.leadingAnchor,
+                        constant: .filtersPopupContentLeadingPadding)
+        let trailing = headerLabel.trailingAnchor
+            .constraint(equalTo: contentView.trailingAnchor,
+                        constant: .filtersPopupContentTrailingPadding)
+        let top = headerLabel.topAnchor
+            .constraint(equalTo: contentView.topAnchor,
+                        constant: .filtersPopupContentTopPadding)
         
         NSLayoutConstraint.activate([
             leading, trailing, top
@@ -303,14 +315,16 @@ extension FiltersPopupView {
         // Constraint Configuration
         headerSeparator.translatesAutoresizingMaskIntoConstraints = false
         
-        let leading = headerSeparator.leadingAnchor.constraint(equalTo: headerLabel.leadingAnchor)
-        let trailing = headerSeparator.trailingAnchor.constraint(equalTo: headerLabel.trailingAnchor)
-        let top = headerSeparator.topAnchor.constraint(equalTo: headerLabel.bottomAnchor, constant: 10)
-        let height = headerSeparator.heightAnchor.constraint(equalToConstant: 1)
+        let leading = headerSeparator.leadingAnchor
+            .constraint(equalTo: headerLabel.leadingAnchor)
+        let trailing = headerSeparator.trailingAnchor
+            .constraint(equalTo: headerLabel.trailingAnchor)
+        let top = headerSeparator.topAnchor
+            .constraint(equalTo: headerLabel.bottomAnchor,
+                        constant: .filtersPopupHeaderSeparatorTopPadding)
         
         NSLayoutConstraint.activate([
-            leading, trailing, top,
-            height
+            leading, trailing, top
         ])
     }
     
@@ -318,7 +332,7 @@ extension FiltersPopupView {
         selectButtonStack.axis = .vertical
         selectButtonStack.alignment = .fill
         selectButtonStack.distribution = .fill
-        selectButtonStack.spacing = 12
+        selectButtonStack.spacing = .filtersPopupButtonStackSpacing
         
         productsSelectButton.placeholder = "Products"
         stateSelectButton.placeholder = "State"
@@ -328,9 +342,13 @@ extension FiltersPopupView {
         // Constraint Configuration
         selectButtonStack.translatesAutoresizingMaskIntoConstraints = false
         
-        let leading = selectButtonStack.leadingAnchor.constraint(equalTo: headerLabel.leadingAnchor)
-        let trailing = selectButtonStack.trailingAnchor.constraint(equalTo: headerLabel.trailingAnchor)
-        let top = selectButtonStack.topAnchor.constraint(equalTo: headerSeparator.bottomAnchor, constant: 35)
+        let leading = selectButtonStack.leadingAnchor
+            .constraint(equalTo: headerLabel.leadingAnchor)
+        let trailing = selectButtonStack.trailingAnchor
+            .constraint(equalTo: headerLabel.trailingAnchor)
+        let top = selectButtonStack.topAnchor
+            .constraint(equalTo: headerSeparator.bottomAnchor,
+                        constant: .filtersPopupButtonStackTopPadding)
         
         NSLayoutConstraint.activate([
             leading, trailing, top
@@ -342,9 +360,14 @@ extension FiltersPopupView {
         // Constraint Configuration
         applyButton.translatesAutoresizingMaskIntoConstraints = false
         
-        let centerX = applyButton.centerXAnchor.constraint(equalTo: headerLabel.centerXAnchor)
-        let top = applyButton.topAnchor.constraint(equalTo: selectButtonStack.bottomAnchor, constant: 20)
-        let bottom = applyButton.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: .filtersViewContentBottomPadding)
+        let centerX = applyButton.centerXAnchor
+            .constraint(equalTo: headerLabel.centerXAnchor)
+        let top = applyButton.topAnchor
+            .constraint(equalTo: selectButtonStack.bottomAnchor,
+                        constant: .filtersPopupApplyButtonBottomPadding)
+        let bottom = applyButton.bottomAnchor
+            .constraint(equalTo: contentView.bottomAnchor,
+                        constant: .filtersPopupContentBottomPadding)
         
         NSLayoutConstraint.activate([
             centerX, top, bottom
@@ -356,10 +379,18 @@ extension FiltersPopupView {
         // Constraint Configuration
         visibleSelectView!.translatesAutoresizingMaskIntoConstraints = false
         
-        let leading = visibleSelectView!.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: -25)
-        let trailing = visibleSelectView!.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: 25)
-        let top = visibleSelectView!.topAnchor.constraint(equalTo: contentView.topAnchor, constant: -25)
-        let bottom = visibleSelectView!.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: 25)
+        let leading = visibleSelectView!.leadingAnchor
+            .constraint(equalTo: contentView.leadingAnchor,
+                        constant: .filtersPopupSelectViewLeadingPadding)
+        let trailing = visibleSelectView!.trailingAnchor
+            .constraint(equalTo: contentView.trailingAnchor,
+                        constant: .filtersPopupSelectViewTrailingPadding)
+        let top = visibleSelectView!.topAnchor
+            .constraint(equalTo: contentView.topAnchor,
+                        constant: .filtersPopupSelectViewTopPadding)
+        let bottom = visibleSelectView!.bottomAnchor
+            .constraint(equalTo: contentView.bottomAnchor,
+                        constant: .filtersPopupSelectViewBottomPadding)
         
         NSLayoutConstraint.activate([
             leading, trailing, top, bottom

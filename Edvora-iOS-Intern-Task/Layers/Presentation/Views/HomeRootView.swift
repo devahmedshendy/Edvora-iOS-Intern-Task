@@ -46,7 +46,7 @@ final class HomeRootView: UIView {
     
     private var noRecordFoundLabel: UILabel!
     
-    private var filtersView: FiltersBarView!
+    private var filtersBarView: FiltersBarView!
     private var filtersPopupView: FiltersPopupView!
     
     private var collectionView: CollectionView!
@@ -71,21 +71,21 @@ final class HomeRootView: UIView {
         // Create the Subviews
         noRecordFoundLabel = UILabel()
         
-        filtersView = FiltersBarView()
+        filtersBarView = FiltersBarView()
         filtersPopupView = FiltersPopupView()
         
         collectionView = CollectionView(frame: .zero,
                                           collectionViewLayout: UICollectionViewFlowLayout())
         
         // Add the Subviews
-        addSubview(filtersView)
+        addSubview(filtersBarView)
         addSubview(collectionView)
         addSubview(noRecordFoundLabel)
         
         spinnerView = StateBasedSpinnerView(containerView: self)
         
         // Setup the Subviews
-        setupFiltersView()
+        setupFiltersBarView()
         setupCollectionView()
         configureCollectionView()
         setupNoRecordFoundLabel()
@@ -106,7 +106,7 @@ final class HomeRootView: UIView {
                 
                 self.loadDataSource()
                 
-                self.filtersView.isHidden = self.filteredProductSections.isEmpty
+                self.filtersBarView.isHidden = self.filteredProductSections.isEmpty
                 self.collectionView.isHidden = self.filteredProductSections.isEmpty
                 self.noRecordFoundLabel.isHidden = self.filteredProductSections.isNotEmpty
                 
@@ -129,7 +129,7 @@ extension HomeRootView: FiltersBarViewDelegate {
     func onClearFiltersButtonTapped() {
         filtersDto.clearSelections()
         filtersPopupView.resetFilters()
-        filtersView.setClearButtonVisibility(isHidden: true)
+        filtersBarView.setClearButtonVisibility(isHidden: true)
         
         applyFiltersOnProductList(
             onStarted: { [weak self] in
@@ -164,7 +164,7 @@ extension HomeRootView: FiltersPopupViewDelegate {
         if filtersDto != filtersPopupView.filtersDto {
             filtersDto = filtersPopupView.filtersDto
             
-            filtersView.setClearButtonVisibility(isHidden: filtersDto.isEmpty)
+            filtersBarView.setClearButtonVisibility(isHidden: filtersDto.isEmpty)
             
             applyFiltersOnProductList(
                 onStarted: { [weak self] in
@@ -234,17 +234,20 @@ extension HomeRootView {
 
 extension HomeRootView {
     
-    private func setupFiltersView() {
-        filtersView.isHidden = true
+    private func setupFiltersBarView() {
+        filtersBarView.isHidden = true
         
-        filtersView.delegate = self
+        filtersBarView.delegate = self
         
         // Constraint Configuration
-        filtersView.translatesAutoresizingMaskIntoConstraints = false
+        filtersBarView.translatesAutoresizingMaskIntoConstraints = false
         
-        let leading = filtersView.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: .screenLeadingPadding)
-        let trailing = filtersView.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: .screenTrailingPadding)
-        let top = filtersView.topAnchor.constraint(equalTo: self.topAnchor, constant: .screenTopPadding)
+        let leading = filtersBarView.leadingAnchor
+            .constraint(equalTo: self.leadingAnchor, constant: .screenLeadingPadding)
+        let trailing = filtersBarView.trailingAnchor
+            .constraint(equalTo: self.trailingAnchor, constant: .screenTrailingPadding)
+        let top = filtersBarView.topAnchor
+            .constraint(equalTo: self.topAnchor, constant: .screenTopPadding)
         
         NSLayoutConstraint.activate([
             leading, trailing, top
@@ -255,14 +258,16 @@ extension HomeRootView {
         noRecordFoundLabel.isHidden = true
         
         noRecordFoundLabel.text = "No Record Found!"
-        noRecordFoundLabel.font = UIFont.systemFont(ofSize: 20, weight: .bold)
+        noRecordFoundLabel.font = .noRecordTitleFont
         noRecordFoundLabel.textColor = .hintColor
         
         // Constraints Configuration
         noRecordFoundLabel.translatesAutoresizingMaskIntoConstraints = false
         
-        let centerX = noRecordFoundLabel.centerXAnchor.constraint(equalTo: self.centerXAnchor)
-        let centerY = noRecordFoundLabel.centerYAnchor.constraint(equalTo: self.centerYAnchor)
+        let centerX = noRecordFoundLabel.centerXAnchor
+            .constraint(equalTo: self.centerXAnchor)
+        let centerY = noRecordFoundLabel.centerYAnchor
+            .constraint(equalTo: self.centerYAnchor)
         
         NSLayoutConstraint.activate([
             centerX, centerY
@@ -276,10 +281,14 @@ extension HomeRootView {
         // Constraint Configuration
         filtersPopupView.translatesAutoresizingMaskIntoConstraints = false
         
-        let leading = filtersPopupView.leadingAnchor.constraint(equalTo: self.leadingAnchor)
-        let trailing = filtersPopupView.trailingAnchor.constraint(equalTo: self.trailingAnchor)
-        let top = filtersPopupView.topAnchor.constraint(equalTo: self.topAnchor)
-        let bottom = filtersPopupView.bottomAnchor.constraint(equalTo: self.bottomAnchor)
+        let leading = filtersPopupView.leadingAnchor
+            .constraint(equalTo: self.leadingAnchor)
+        let trailing = filtersPopupView.trailingAnchor
+            .constraint(equalTo: self.trailingAnchor)
+        let top = filtersPopupView.topAnchor
+            .constraint(equalTo: self.topAnchor)
+        let bottom = filtersPopupView.bottomAnchor
+            .constraint(equalTo: self.bottomAnchor)
         
         NSLayoutConstraint.activate([
             leading, trailing, top, bottom
@@ -310,10 +319,14 @@ extension HomeRootView {
         // Constraint Configuration
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         
-        let leading = collectionView.leadingAnchor.constraint(equalTo: self.leadingAnchor)
-        let trailing = collectionView.trailingAnchor.constraint(equalTo: self.trailingAnchor)
-        let top = collectionView.topAnchor.constraint(equalTo: filtersView.bottomAnchor, constant: 25)
-        let bottom = collectionView.bottomAnchor.constraint(equalTo: self.bottomAnchor)
+        let leading = collectionView.leadingAnchor
+            .constraint(equalTo: self.leadingAnchor)
+        let trailing = collectionView.trailingAnchor
+            .constraint(equalTo: self.trailingAnchor)
+        let top = collectionView.topAnchor
+            .constraint(equalTo: filtersBarView.bottomAnchor, constant: .homeCollectionViewTopPadding)
+        let bottom = collectionView.bottomAnchor
+            .constraint(equalTo: self.bottomAnchor)
         
         NSLayoutConstraint.activate([
             leading, trailing, top, bottom
@@ -354,10 +367,12 @@ extension HomeRootView {
         section.boundarySupplementaryItems = [header]
         section.orthogonalScrollingBehavior = .continuous
         section.interGroupSpacing = 20
-        section.contentInsets = NSDirectionalEdgeInsets(top: .productCollectionTopInset,
-                                                        leading: .productCollectionLeadingInset,
-                                                        bottom: .productCollectionBottomInset,
-                                                        trailing: 0)
+        section.contentInsets = NSDirectionalEdgeInsets(
+            top: .productCollectionTopInset,
+            leading: .productCollectionLeadingInset,
+            bottom: .productCollectionBottomInset,
+            trailing: 0
+        )
         
         collectionView.setCollectionViewLayout(
             UICollectionViewCompositionalLayout(section: section),
@@ -441,4 +456,5 @@ public final class CollectionView: UICollectionView {
             scrollView.frame.size.height = maxHeight
         }
     }
+    
 }

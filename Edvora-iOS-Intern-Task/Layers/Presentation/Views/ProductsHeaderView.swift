@@ -60,14 +60,17 @@ final class ProductsHeaderView: UICollectionViewCell {
         headerLabel.textColor = .white
         headerLabel.textAlignment = .left
         headerLabel.font = .productsHeaderFont
-        headerLabel.adjustsFontForContentSizeCategory = true
         
         // Constraint Configuration
         headerLabel.translatesAutoresizingMaskIntoConstraints = false
         
-        let leading = headerLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor)
-        let trailing = headerLabel.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: .screenTrailingPadding)
-        let top = headerLabel.topAnchor.constraint(equalTo: self.topAnchor)
+        let leading = headerLabel.leadingAnchor
+            .constraint(equalTo: self.leadingAnchor)
+        let trailing = headerLabel.trailingAnchor
+            .constraint(equalTo: self.trailingAnchor,
+                        constant: .screenTrailingPadding)
+        let top = headerLabel.topAnchor
+            .constraint(equalTo: self.topAnchor)
         
         NSLayoutConstraint.activate([
             leading, trailing, top
@@ -79,10 +82,15 @@ final class ProductsHeaderView: UICollectionViewCell {
         // Constraint Configuration
         separatorView.translatesAutoresizingMaskIntoConstraints = false
         
-        let leading = separatorView.leadingAnchor.constraint(equalTo: self.leadingAnchor)
-        let trailing = separatorView.trailingAnchor.constraint(equalTo: self.trailingAnchor)
-        let top = separatorView.topAnchor.constraint(equalTo: headerLabel.bottomAnchor, constant: 10)
-        let bottom = separatorView.bottomAnchor.constraint(equalTo: self.bottomAnchor)
+        let leading = separatorView.leadingAnchor
+            .constraint(equalTo: self.leadingAnchor)
+        let trailing = separatorView.trailingAnchor
+            .constraint(equalTo: self.trailingAnchor)
+        let top = separatorView.topAnchor
+            .constraint(equalTo: headerLabel.bottomAnchor,
+                        constant: .productsHeaderSeparatorTopPadding)
+        let bottom = separatorView.bottomAnchor
+            .constraint(equalTo: self.bottomAnchor)
         
         NSLayoutConstraint.activate([
             leading, trailing, top, bottom

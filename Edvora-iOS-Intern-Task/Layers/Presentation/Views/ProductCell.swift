@@ -117,22 +117,28 @@ extension ProductCell {
     
     private func setupSelf() {
         backgroundColor = .black
-        layer.cornerRadius = .cornerRadius
+        layer.cornerRadius = .productCellCornerRadius
     }
     
     private func setupProductImageView() {
         imageView.clipsToBounds = true
         imageView.backgroundColor = .navbarTitleColor
         imageView.contentMode = .scaleAspectFill
-        imageView.layer.cornerRadius = .cornerRadius
+        imageView.layer.cornerRadius = .productCellCornerRadius
         
         // Constraint Configuration
         imageView.translatesAutoresizingMaskIntoConstraints = false
         
-        let leading = imageView.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: .productCellLeadingPadding)
-        let top = imageView.topAnchor.constraint(equalTo: self.topAnchor, constant: .productCellTopPadding)
-        let width = imageView.widthAnchor.constraint(equalTo: self.widthAnchor, multiplier: 0.35)
-        let height = imageView.heightAnchor.constraint(equalTo: imageView.widthAnchor)
+        let leading = imageView.leadingAnchor
+            .constraint(equalTo: self.leadingAnchor,
+                        constant: .productCellLeadingPadding)
+        let top = imageView.topAnchor
+            .constraint(equalTo: self.topAnchor,
+                        constant: .productCellTopPadding)
+        let width = imageView.widthAnchor
+            .constraint(equalTo: self.widthAnchor, multiplier: 0.35)
+        let height = imageView.heightAnchor
+            .constraint(equalTo: imageView.widthAnchor)
         
         NSLayoutConstraint.activate([
             leading, top,
@@ -145,14 +151,18 @@ extension ProductCell {
         productNameLabel.numberOfLines = 1
         productNameLabel.textColor = .productCellPrimaryColor
         productNameLabel.font = .productNameFont
-        productNameLabel.adjustsFontForContentSizeCategory = true
         
         // Constraint Configuration
         productNameLabel.translatesAutoresizingMaskIntoConstraints = false
         
-        let leading = productNameLabel.leadingAnchor.constraint(equalTo: imageView.trailingAnchor, constant: UIDevice.iPad ? 20 : 15)
-        let trailing = productNameLabel.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: .productCellTrailingPadding)
-        let top = productNameLabel.topAnchor.constraint(equalTo: imageView.topAnchor)
+        let leading = productNameLabel.leadingAnchor
+            .constraint(equalTo: imageView.trailingAnchor,
+                        constant: .productNameLeadingPadding)
+        let trailing = productNameLabel.trailingAnchor
+            .constraint(equalTo: self.trailingAnchor,
+                        constant: .productCellTrailingPadding)
+        let top = productNameLabel.topAnchor
+            .constraint(equalTo: imageView.topAnchor)
         
         NSLayoutConstraint.activate([
             leading, trailing, top
@@ -168,9 +178,13 @@ extension ProductCell {
         // Constraint Configuration
         brandNameLabel.translatesAutoresizingMaskIntoConstraints = false
         
-        let leading = brandNameLabel.leadingAnchor.constraint(equalTo: productNameLabel.leadingAnchor)
-        let trailing = brandNameLabel.trailingAnchor.constraint(equalTo: productNameLabel.trailingAnchor)
-        let top = brandNameLabel.topAnchor.constraint(equalTo: productNameLabel.bottomAnchor, constant: 5)
+        let leading = brandNameLabel.leadingAnchor
+            .constraint(equalTo: productNameLabel.leadingAnchor)
+        let trailing = brandNameLabel.trailingAnchor
+            .constraint(equalTo: productNameLabel.trailingAnchor)
+        let top = brandNameLabel.topAnchor
+            .constraint(equalTo: productNameLabel.bottomAnchor,
+                        constant: .brandNameTopPadding)
         
         NSLayoutConstraint.activate([
             leading, trailing, top
@@ -186,9 +200,13 @@ extension ProductCell {
         // Constraint Configuration
         priceLabel.translatesAutoresizingMaskIntoConstraints = false
         
-        let leading = priceLabel.leadingAnchor.constraint(equalTo: productNameLabel.leadingAnchor)
-        let trailing = priceLabel.trailingAnchor.constraint(equalTo: productNameLabel.trailingAnchor)
-        let top = priceLabel.topAnchor.constraint(equalTo: brandNameLabel.bottomAnchor, constant: 7)
+        let leading = priceLabel.leadingAnchor
+            .constraint(equalTo: productNameLabel.leadingAnchor)
+        let trailing = priceLabel.trailingAnchor
+            .constraint(equalTo: productNameLabel.trailingAnchor)
+        let top = priceLabel.topAnchor
+            .constraint(equalTo: brandNameLabel.bottomAnchor,
+                        constant: .priceTopPadding)
         
         NSLayoutConstraint.activate([
             leading, trailing, top
@@ -204,9 +222,13 @@ extension ProductCell {
         // Constraint Configuration
         dateLabel.translatesAutoresizingMaskIntoConstraints = false
                 
-        let leading = dateLabel.leadingAnchor.constraint(equalTo: productNameLabel.leadingAnchor)
-        let trailing = dateLabel.trailingAnchor.constraint(equalTo: productNameLabel.trailingAnchor)
-        let top = dateLabel.topAnchor.constraint(equalTo: priceLabel.bottomAnchor, constant: 10)
+        let leading = dateLabel.leadingAnchor
+            .constraint(equalTo: productNameLabel.leadingAnchor)
+        let trailing = dateLabel.trailingAnchor
+            .constraint(equalTo: productNameLabel.trailingAnchor)
+        let top = dateLabel.topAnchor
+            .constraint(equalTo: priceLabel.bottomAnchor,
+                        constant: .dateTopPadding)
         
         NSLayoutConstraint.activate([
             leading, trailing, top
@@ -222,9 +244,13 @@ extension ProductCell {
         // Constraint Configuration
         locationLabel.translatesAutoresizingMaskIntoConstraints = false
                 
-        let leading = locationLabel.leadingAnchor.constraint(equalTo: imageView.leadingAnchor)
-        let trailing = locationLabel.trailingAnchor.constraint(equalTo: productNameLabel.trailingAnchor)
-        let top = locationLabel.topAnchor.constraint(equalTo: imageView.bottomAnchor, constant: UIDevice.iPad ? 15 : 10)
+        let leading = locationLabel.leadingAnchor
+            .constraint(equalTo: imageView.leadingAnchor)
+        let trailing = locationLabel.trailingAnchor
+            .constraint(equalTo: productNameLabel.trailingAnchor)
+        let top = locationLabel.topAnchor
+            .constraint(equalTo: imageView.bottomAnchor,
+                        constant: .locationTopPadding)
         
         NSLayoutConstraint.activate([
             leading, trailing, top
@@ -241,10 +267,16 @@ extension ProductCell {
         descriptionLabel.translatesAutoresizingMaskIntoConstraints = false
                 
         let leading = descriptionLabel.leadingAnchor.constraint(equalTo: imageView.leadingAnchor)
-        let trailing = descriptionLabel.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: .productCellTrailingPadding)
-        let top = descriptionLabel.topAnchor.constraint(equalTo: locationLabel.bottomAnchor, constant: 10)
+        let trailing = descriptionLabel.trailingAnchor
+            .constraint(equalTo: self.trailingAnchor,
+                        constant: .productCellTrailingPadding)
+        let top = descriptionLabel.topAnchor
+            .constraint(equalTo: locationLabel.bottomAnchor,
+                        constant: .descriptionTopPadding)
         top.priority = .fittingSizeLevel
-        let bottom = descriptionLabel.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: .productCellBottomPadding)
+        let bottom = descriptionLabel.bottomAnchor
+            .constraint(equalTo: self.bottomAnchor,
+                        constant: .productCellBottomPadding)
         
         NSLayoutConstraint.activate([
             leading, trailing, top, bottom
