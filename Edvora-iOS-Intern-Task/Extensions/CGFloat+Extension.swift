@@ -16,10 +16,18 @@ extension CGFloat {
     static let screenLeadingPadding: CGFloat = 20
     static let screenTrailingPadding: CGFloat = -20
     
-    static let productCellLeadingPadding: CGFloat = 20
-    static let productCellTrailingPadding: CGFloat = -20
-    static let productCellTopPadding: CGFloat = 20
-    static let productCellBottomPadding: CGFloat = -20
+    static var productCellLeadingPadding: CGFloat {
+        UIDevice.iPad ? 25 : 20
+    }
+    static var productCellTrailingPadding: CGFloat {
+        UIDevice.iPad ? -25 : -20
+    }
+    static var productCellTopPadding: CGFloat {
+        UIDevice.iPad ? 25 : 20
+    }
+    static var productCellBottomPadding: CGFloat {
+        UIDevice.iPad ? -25 : -20
+    }
     static let productCellSubviewsSpacing: CGFloat = 5
     
     
@@ -32,4 +40,39 @@ extension CGFloat {
     static let filtersViewContentTopPadding: CGFloat = 30
     static let filtersViewContentBottomPadding: CGFloat = -30
     
+    // MARK: - SelectButton
+    
+    static var selectButtonLeadingPadding: CGFloat {
+        UIDevice.iPad ? 16 : 12
+    }
+    static var selectButtonTrailingPadding: CGFloat {
+        UIDevice.iPad ? -16 : -12
+    }
+    static var selectButtonTopPadding: CGFloat {
+        UIDevice.iPad ? 12 : 8
+    }
+    static var selectButtonBottomPadding: CGFloat {
+        UIDevice.iPad ? -12 : -8
+    }
+    
+    // MARK: - SpinnerView
+    
+    static var spinnerSide: CGFloat {
+        UIDevice.iPad ? 1.7 : 1.5
+    }
+    static var spinnerViewLeadingPadding: CGFloat {
+        UIDevice.iPad ? 24 : 20
+    }
+    static var spinnerViewTrailingPadding: CGFloat {
+        UIDevice.iPad ? -24 : -20
+    }
+    static var spinnerViewTopPadding: CGFloat {
+        UIDevice.iPad ? 19 : 15
+    }
+    static var spinnerViewBottomPadding: CGFloat {
+        UIDevice.iPad ? -19 : -15
+    }
+    static var spinnerViewContentSpacing: CGFloat {
+        UIDevice.iPad ? 24 : 20
+    }
 }

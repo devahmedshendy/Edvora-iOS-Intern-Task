@@ -24,8 +24,8 @@ class TextButton: UIButton {
     }
     
     func setup() {
-        titleLabel?.font = UIFont.systemFont(ofSize: 15, weight: .medium)
         backgroundColor = .clear
+        titleLabel?.font = .textButtonFont
     }
     
 }

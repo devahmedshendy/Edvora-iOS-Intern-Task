@@ -34,6 +34,12 @@ final class HomeRootView: UIView {
         }
     }
     
+    private var isClearingFilters: Bool = false {
+        didSet {
+            spinnerView.updateVisibility(isClearingFilters, forState: .isClearingFilters)
+        }
+    }
+    
     // MARK: - Subviews
     
     private var spinnerView: StateBasedSpinnerView!
@@ -127,7 +133,7 @@ extension HomeRootView: FiltersBarViewDelegate {
         
         applyFiltersOnProductList(
             onStarted: { [weak self] in
-                self?.isApplyingFilters = true
+                self?.isClearingFilters = true
             },
             onCompleted: { [weak self] in
                 guard let self = self else { return }
@@ -137,7 +143,7 @@ extension HomeRootView: FiltersBarViewDelegate {
                 self.collectionView.isHidden = self.filteredProductSections.isEmpty
                 self.noRecordFoundLabel.isHidden = self.filteredProductSections.isNotEmpty
                 
-                self.isApplyingFilters = false
+                self.isClearingFilters = false
             }
         )
     }
@@ -147,8 +153,12 @@ extension HomeRootView: FiltersBarViewDelegate {
 // MARK: - FiltersPopupViewDelegate
 
 extension HomeRootView: FiltersPopupViewDelegate {
-
+    
     func dismissFiltersPopup() {
+        filtersPopupView.removeFromSuperview()
+    }
+    
+    func applyFilters() {
         filtersPopupView.removeFromSuperview()
         
         if filtersDto != filtersPopupView.filtersDto {
@@ -172,6 +182,50 @@ extension HomeRootView: FiltersPopupViewDelegate {
                 }
             )
         }
+    }
+    
+}
+
+// MARK: - DataSource Operations
+
+extension HomeRootView {
+    
+    private func prepareProducts(onStarted: () -> Void,
+                                 onCompleted: @escaping () -> Void) {
+        onStarted()
+        
+        serialQueue.async { [weak self] in
+            self?._applyFiltersOnProductList()
+            
+            DispatchQueue.main.async(execute: onCompleted)
+        }
+    }
+    
+    private func applyFiltersOnProductList(onStarted: () -> Void,
+                                           onCompleted: @escaping () -> Void) {
+        onStarted()
+        
+        serialQueue.async { [weak self] in
+            self?._applyFiltersOnProductList()
+            
+            DispatchQueue.main.async(execute: onCompleted)
+        }
+    }
+    
+    private func _applyFiltersOnProductList() {
+        filteredProductMap = [:]
+        
+        let filteredProducts = filtersDto.applyTo(list: self.productList)
+        
+        for product in filteredProducts {
+            if filteredProductMap[product.name] == nil {
+                filteredProductMap[product.name] = []
+            }
+            
+            filteredProductMap[product.name]!.append(product)
+        }
+        
+        filteredProductSections = filteredProductMap.keys.sorted()
     }
     
 }
@@ -281,7 +335,7 @@ extension HomeRootView {
         
         let group = NSCollectionLayoutGroup.horizontal(
             layoutSize: NSCollectionLayoutSize(
-                widthDimension: .fractionalWidth(0.7),
+                widthDimension: .productCellGroupWidthDimention,
                 heightDimension: .estimated(20)
             ),
             subitem: item, count: 1
@@ -361,99 +415,6 @@ extension HomeRootView {
         
         dataSource.apply(snapshot, animatingDifferences: true)
     }
-    
-    private func prepareProducts(onStarted: () -> Void,
-                                           onCompleted: @escaping () -> Void) {
-        onStarted()
-        
-        serialQueue.async { [weak self] in
-            self?._applyFiltersOnProductList()
-
-            DispatchQueue.main.async(execute: onCompleted)
-        }
-    }
-    
-    private func applyFiltersOnProductList(onStarted: () -> Void,
-                                           onCompleted: @escaping () -> Void) {
-        onStarted()
-        
-        serialQueue.async { [weak self] in
-            self?._applyFiltersOnProductList()
-            
-            DispatchQueue.main.async(execute: onCompleted)
-        }
-    }
-    
-    private func _applyFiltersOnProductList() {
-        filteredProductMap = [:]
-
-        let filteredProducts = filtersDto.applyTo(list: self.productList)
-        
-        for product in filteredProducts {
-            if filteredProductMap[product.name] == nil {
-                filteredProductMap[product.name] = []
-            }
-            
-            filteredProductMap[product.name]!.append(product)
-        }
-        
-        filteredProductSections = filteredProductMap.keys.sorted()
-    }
-    
-//    private func applyFiltersOnProductListThenRefreshDataSource() {
-//        let filteredProducts = self.filtersDto.applyTo(list: self.productList)
-//        //            Logger.debug(filteredProducts)
-//        self.filteredProductMap = self.toProductsMap(filteredProducts)
-//        self.filteredProductSections = self.filteredProductMap.keys.sorted()
-//
-//        //            Logger.debug(self.productsMap[self.sections[0]])
-//
-//        DispatchQueue.main.async { [weak self] in
-//            guard let self = self else { return }
-//            applyEmptySnapshot()
-//
-//            var snapshot = NSDiffableDataSourceSnapshot<String, ProductDto>()
-//
-//            snapshot.appendSections(self.filteredProductSections)
-//            self.filteredProductMap.keys.forEach { section in
-//                snapshot.appendItems(self.filteredProductMap[section]!, toSection: section)
-//            }
-//
-//            self.dataSource.apply(snapshot, animatingDifferences: true)
-//            self.stopActivityIndicator()
-//        }
-//    }
-    
-//    private func applySnapshot() {
-//        applyEmptySnapshot()
-//
-//        var snapshot = NSDiffableDataSourceSnapshot<String, ProductDto>()
-//
-//        snapshot.appendSections(self.filteredProductSections)
-//
-//        filteredProductMap.keys.forEach { section in
-//            let products = filteredProductMap[section]!
-//            snapshot.appendItems(products, toSection: section)
-//        }
-//
-//        dataSource.apply(snapshot, animatingDifferences: true)
-//
-//        isApplyingFilters = false
-//    }
-    
-//    private func toProductsMap(_ list: [ProductDto]) -> [String : [ProductDto]] {
-//        var productsMap: [String : [ProductDto]] = [:]
-//
-//        for product in list {
-//            if productsMap[product.name] == nil {
-//                productsMap[product.name] = []
-//            }
-//
-//            productsMap[product.name]!.append(product)
-//        }
-//
-//        return productsMap
-//    }
 }
 
 /*

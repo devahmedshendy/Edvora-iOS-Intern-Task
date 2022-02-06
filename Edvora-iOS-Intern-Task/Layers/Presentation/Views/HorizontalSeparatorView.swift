@@ -26,7 +26,7 @@ final class HorizontalSeparatorView: UIView {
     }
     
     func setup() {
-        backgroundColor = .separator
+        backgroundColor = UIColor(red: 0.796, green: 0.796, blue: 0.796, alpha: 1)
         heightAnchor.constraint(equalToConstant: 1).isActive = true
     }
     

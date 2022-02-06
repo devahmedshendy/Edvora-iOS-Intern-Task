@@ -106,10 +106,10 @@ final class MultiSelectView: UIView {
         options = list
         
         tableView.reloadData()
-        handlePreviousSelection(previousSelections)
+        handlePreviousSelections(previousSelections)
     }
     
-    private func handlePreviousSelection(_ previousSelections: [String]) {
+    private func handlePreviousSelections(_ previousSelections: [String]) {
         guard previousSelections.isNotEmpty else { return }
         
         selectedOptions = Set(previousSelections)
@@ -164,11 +164,10 @@ extension MultiSelectView: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "BasicCell", for: indexPath)
+        let cell = tableView.dequeueReusableCell(withIdentifier: SelectViewCell.reuseIdentifier, for: indexPath) as! SelectViewCell
         
         let option = options[indexPath.row]
         
-        cell.backgroundColor = .clear
         cell.textLabel?.text = option
         cell.accessoryType = selectedOptions.contains(option) ? .checkmark : .none
         
@@ -237,7 +236,7 @@ extension MultiSelectView {
         tableView.delegate = self
         tableView.dataSource = self
         
-        tableView.register(UITableViewCell.self, forCellReuseIdentifier: "BasicCell")
+        tableView.register(SelectViewCell.self, forCellReuseIdentifier: SelectViewCell.reuseIdentifier)
         
         // Constraint Configuration
         tableView.translatesAutoresizingMaskIntoConstraints = false

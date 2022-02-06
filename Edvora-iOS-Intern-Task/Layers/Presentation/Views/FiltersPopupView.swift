@@ -9,6 +9,7 @@ import UIKit
 
 protocol FiltersPopupViewDelegate: AnyObject {
     func dismissFiltersPopup()
+    func applyFilters()
 }
 
 final class FiltersPopupView: UIView {
@@ -17,7 +18,13 @@ final class FiltersPopupView: UIView {
     
     weak var delegate: FiltersPopupViewDelegate?
     
-    var filtersDto: FiltersDto!
+    var filtersDto: FiltersDto! {
+        didSet {
+            productsSelectButton.setTitle(filtersDto.selectedProducts.joined(separator: ", "))
+            stateSelectButton.setTitle(filtersDto.selectedState)
+            citySelectButton.setTitle(filtersDto.selectedCity)
+        }
+    }
     
     private var products: [String] {
         filtersDto.products
@@ -41,7 +48,7 @@ final class FiltersPopupView: UIView {
     private var productsSelectButton: SelectButton!
     private var stateSelectButton: SelectButton!
     private var citySelectButton: SelectButton!
-    
+    private var applyButton: ApplyButton!
     private var selectButtonStack: UIStackView!
     
     private var visibleSelectView: UIView?
@@ -83,12 +90,15 @@ final class FiltersPopupView: UIView {
             ]
         )
         
+        applyButton = ApplyButton()
+        
         // Add the Subviews
         addSubview(overlayView)
         addSubview(contentView)
         contentView.addSubview(headerLabel)
         contentView.addSubview(headerSeparator)
         contentView.addSubview(selectButtonStack)
+        contentView.addSubview(applyButton)
         
         // Setup the Subviews
         setupOverlayView()
@@ -96,6 +106,7 @@ final class FiltersPopupView: UIView {
         setupHeaderLabel()
         setupHeaderSeparator()
         setupSelectButtonStack()
+        setupApplyButton()
         
         setupActions()
     }
@@ -107,13 +118,6 @@ final class FiltersPopupView: UIView {
             UITapGestureRecognizer(
                 target: self,
                 action: #selector(onOverlayViewTapped)
-            )
-        )
-        
-        contentView.addGestureRecognizer(
-            UITapGestureRecognizer(
-                target: self,
-                action: #selector(onContentViewTapped)
             )
         )
         
@@ -137,15 +141,23 @@ final class FiltersPopupView: UIView {
                 action: #selector(onCitySelectButtonTapped)
             )
         )
+        
+        applyButton.addGestureRecognizer(
+            UITapGestureRecognizer(
+                target: self,
+                action: #selector(onApplyButtonTapped)
+            )
+        )
     }
     
     @objc private func onOverlayViewTapped() {
         guard visibleSelectView == nil else { return }
+        resetFilters()
         delegate?.dismissFiltersPopup()
     }
     
-    @objc private func onContentViewTapped() {
-        
+    @objc private func onApplyButtonTapped() {
+        delegate?.applyFilters()
     }
     
     @objc private func onProductsSelectButtonTapped() {
@@ -236,6 +248,7 @@ extension FiltersPopupView {
     
     private func setupOverlayView() {
         overlayView.backgroundColor = .overlayColor
+        overlayView.isUserInteractionEnabled = true
         
         // Constraint Configuration
         overlayView.translatesAutoresizingMaskIntoConstraints = false
@@ -270,7 +283,7 @@ extension FiltersPopupView {
         headerLabel.text = "Filters"
         headerLabel.numberOfLines = 1
         headerLabel.textAlignment = .left
-        headerLabel.font = UIFont.systemFont(ofSize: 20, weight: .light)
+        headerLabel.font = .filtersPopupHeaderFont
         headerLabel.textColor = UIColor(red: 0.646, green: 0.646, blue: 0.646, alpha: 1)
         
         // Constraint Configuration
@@ -286,7 +299,6 @@ extension FiltersPopupView {
     }
 
     private func setupHeaderSeparator() {
-        headerSeparator.backgroundColor = UIColor(red: 0.796, green: 0.796, blue: 0.796, alpha: 1)
         
         // Constraint Configuration
         headerSeparator.translatesAutoresizingMaskIntoConstraints = false
@@ -319,10 +331,23 @@ extension FiltersPopupView {
         let leading = selectButtonStack.leadingAnchor.constraint(equalTo: headerLabel.leadingAnchor)
         let trailing = selectButtonStack.trailingAnchor.constraint(equalTo: headerLabel.trailingAnchor)
         let top = selectButtonStack.topAnchor.constraint(equalTo: headerSeparator.bottomAnchor, constant: 35)
-        let bottom = selectButtonStack.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: .filtersViewContentBottomPadding)
         
         NSLayoutConstraint.activate([
-            leading, trailing, top, bottom
+            leading, trailing, top
+        ])
+    }
+    
+    private func setupApplyButton() {
+        
+        // Constraint Configuration
+        applyButton.translatesAutoresizingMaskIntoConstraints = false
+        
+        let centerX = applyButton.centerXAnchor.constraint(equalTo: headerLabel.centerXAnchor)
+        let top = applyButton.topAnchor.constraint(equalTo: selectButtonStack.bottomAnchor, constant: 20)
+        let bottom = applyButton.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: .filtersViewContentBottomPadding)
+        
+        NSLayoutConstraint.activate([
+            centerX, top, bottom
         ])
     }
     

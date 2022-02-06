@@ -40,7 +40,7 @@ extension ProductDto {
         id = UUID()
         name = model.productName
         brand = model.brandName
-        price = "$ \(model.price)"
+        price = "$\(model.price)"
         dateString = model.date
         state = model.address.state
         city = model.address.city

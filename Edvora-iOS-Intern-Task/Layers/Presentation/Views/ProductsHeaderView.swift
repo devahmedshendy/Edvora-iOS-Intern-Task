@@ -59,8 +59,8 @@ final class ProductsHeaderView: UICollectionViewCell {
         headerLabel.numberOfLines = 1
         headerLabel.textColor = .white
         headerLabel.textAlignment = .left
+        headerLabel.font = .productsHeaderFont
         headerLabel.adjustsFontForContentSizeCategory = true
-        headerLabel.font = UIFont.preferredFont(forTextStyle: .title1)
         
         // Constraint Configuration
         headerLabel.translatesAutoresizingMaskIntoConstraints = false

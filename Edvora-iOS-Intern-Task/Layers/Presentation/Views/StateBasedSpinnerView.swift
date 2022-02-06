@@ -8,6 +8,7 @@
 enum SpinnerState: String {
     case isPreparing = "Preparing..."
     case isApplyingFilters = "Applying Filters..."
+    case isClearingFilters = "Clearing Filters..."
 }
 
 final class StateBasedSpinnerView: SpinnerView {

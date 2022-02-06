@@ -131,7 +131,7 @@ extension ProductCell {
         
         let leading = imageView.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: .productCellLeadingPadding)
         let top = imageView.topAnchor.constraint(equalTo: self.topAnchor, constant: .productCellTopPadding)
-        let width = imageView.widthAnchor.constraint(equalTo: self.widthAnchor, multiplier: 0.3)
+        let width = imageView.widthAnchor.constraint(equalTo: self.widthAnchor, multiplier: 0.35)
         let height = imageView.heightAnchor.constraint(equalTo: imageView.widthAnchor)
         
         NSLayoutConstraint.activate([
@@ -144,13 +144,13 @@ extension ProductCell {
         productNameLabel.text = "Product Name"
         productNameLabel.numberOfLines = 1
         productNameLabel.textColor = .productCellPrimaryColor
+        productNameLabel.font = .productNameFont
         productNameLabel.adjustsFontForContentSizeCategory = true
-        productNameLabel.font = UIFont.preferredFont(forTextStyle: .title2)
         
         // Constraint Configuration
         productNameLabel.translatesAutoresizingMaskIntoConstraints = false
         
-        let leading = productNameLabel.leadingAnchor.constraint(equalTo: imageView.trailingAnchor, constant: 15)
+        let leading = productNameLabel.leadingAnchor.constraint(equalTo: imageView.trailingAnchor, constant: UIDevice.iPad ? 20 : 15)
         let trailing = productNameLabel.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: .productCellTrailingPadding)
         let top = productNameLabel.topAnchor.constraint(equalTo: imageView.topAnchor)
         
@@ -163,7 +163,7 @@ extension ProductCell {
         brandNameLabel.text = "Brand Name"
         brandNameLabel.numberOfLines = 1
         brandNameLabel.textColor = .productCellSecondaryColor
-        brandNameLabel.font = UIFont.systemFont(ofSize: 13, weight: .regular)
+        brandNameLabel.font = .brandNameFont
         
         // Constraint Configuration
         brandNameLabel.translatesAutoresizingMaskIntoConstraints = false
@@ -181,14 +181,14 @@ extension ProductCell {
         priceLabel.text = "$ 29.99"
         priceLabel.numberOfLines = 1
         priceLabel.textColor = .productCellPrimaryColor
-        priceLabel.font = UIFont.systemFont(ofSize: 13, weight: .regular)
+        priceLabel.font = .priceFont
         
         // Constraint Configuration
         priceLabel.translatesAutoresizingMaskIntoConstraints = false
         
         let leading = priceLabel.leadingAnchor.constraint(equalTo: productNameLabel.leadingAnchor)
         let trailing = priceLabel.trailingAnchor.constraint(equalTo: productNameLabel.trailingAnchor)
-        let top = priceLabel.topAnchor.constraint(equalTo: brandNameLabel.bottomAnchor, constant: 10)
+        let top = priceLabel.topAnchor.constraint(equalTo: brandNameLabel.bottomAnchor, constant: 7)
         
         NSLayoutConstraint.activate([
             leading, trailing, top
@@ -196,17 +196,17 @@ extension ProductCell {
     }
     
     private func setupDateLabel() {
-        dateLabel.text = "Date: 10-12-2021"
+        dateLabel.text = "10-12-2021"
         dateLabel.numberOfLines = 1
         dateLabel.textColor = .productCellSecondaryColor
-        dateLabel.font = UIFont.systemFont(ofSize: 13, weight: .regular)
+        dateLabel.font = .dateFont
         
         // Constraint Configuration
         dateLabel.translatesAutoresizingMaskIntoConstraints = false
                 
-        let leading = dateLabel.leadingAnchor.constraint(equalTo: imageView.leadingAnchor)
-        let trailing = dateLabel.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: .productCellTrailingPadding)
-        let top = dateLabel.topAnchor.constraint(equalTo: imageView.bottomAnchor, constant: 10)
+        let leading = dateLabel.leadingAnchor.constraint(equalTo: productNameLabel.leadingAnchor)
+        let trailing = dateLabel.trailingAnchor.constraint(equalTo: productNameLabel.trailingAnchor)
+        let top = dateLabel.topAnchor.constraint(equalTo: priceLabel.bottomAnchor, constant: 10)
         
         NSLayoutConstraint.activate([
             leading, trailing, top
@@ -214,17 +214,17 @@ extension ProductCell {
     }
     
     private func setupLocationLabel() {
-        locationLabel.text = "Location: Cairo, Egypt"
+        locationLabel.text = "Cairo, Egypt"
         locationLabel.numberOfLines = 1
         locationLabel.textColor = .productCellSecondaryColor
-        locationLabel.font = UIFont.systemFont(ofSize: 13, weight: .regular)
+        locationLabel.font = .locationFont
         
         // Constraint Configuration
         locationLabel.translatesAutoresizingMaskIntoConstraints = false
                 
         let leading = locationLabel.leadingAnchor.constraint(equalTo: imageView.leadingAnchor)
         let trailing = locationLabel.trailingAnchor.constraint(equalTo: productNameLabel.trailingAnchor)
-        let top = locationLabel.topAnchor.constraint(equalTo: dateLabel.bottomAnchor, constant: 5)
+        let top = locationLabel.topAnchor.constraint(equalTo: imageView.bottomAnchor, constant: UIDevice.iPad ? 15 : 10)
         
         NSLayoutConstraint.activate([
             leading, trailing, top
@@ -232,10 +232,10 @@ extension ProductCell {
     }
     
     private func setupDescriptionLabel() {
-        descriptionLabel.text = "Date: 10-12-2021"
+        descriptionLabel.text = "Production Description"
         descriptionLabel.numberOfLines = 1
         descriptionLabel.textColor = .productCellSecondaryColor
-        descriptionLabel.font = UIFont.systemFont(ofSize: 13, weight: .regular)
+        descriptionLabel.font = .descriptionFont
         
         // Constraint Configuration
         descriptionLabel.translatesAutoresizingMaskIntoConstraints = false

@@ -111,16 +111,15 @@ extension FiltersBarView {
         clearButton.isHidden = true
         clearButton.setTitle("Clear Filter", for: .normal)
         clearButton.setTitleColor(.white, for: .normal)
-        clearButton.backgroundColor = .formInputBackgroundColor
         clearButton.layer.cornerRadius = .cornerRadius
-        clearButton.titleLabel?.font = .regularRoboto(ofSize: 16)
+        clearButton.titleLabel?.font = .filtersBarClearButtonFont
         clearButton.contentEdgeInsets = UIEdgeInsets(top: 4, left: 5, bottom: 4, right: 5)
         
         // Constraint Configuration
         clearButton.translatesAutoresizingMaskIntoConstraints = false
         
         let centerY = clearButton.centerYAnchor.constraint(equalTo: self.centerYAnchor)
-        let trailing = clearButton.trailingAnchor.constraint(equalTo: self.trailingAnchor)
+        let trailing = clearButton.leadingAnchor.constraint(equalTo: selectButton.trailingAnchor, constant: 20)
         
         NSLayoutConstraint.activate([
             centerY, trailing

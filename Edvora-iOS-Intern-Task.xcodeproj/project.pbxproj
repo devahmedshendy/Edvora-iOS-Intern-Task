@@ -26,6 +26,11 @@
 		64CA1EA027B028B1009E172D /* SpinnerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64CA1E9F27B028B1009E172D /* SpinnerView.swift */; };
 		64CA1EA627B02B54009E172D /* LoadingSpinnerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64CA1EA527B02B53009E172D /* LoadingSpinnerView.swift */; };
 		64CA1EB027B048DF009E172D /* StateBasedSpinnerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64CA1EAF27B048DF009E172D /* StateBasedSpinnerView.swift */; };
+		64CA1EB527B0529A009E172D /* UIDevice+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64CA1EB427B0529A009E172D /* UIDevice+Extension.swift */; };
+		64CA1EB927B05C1C009E172D /* NSCollectionLayoutDimension+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64CA1EB827B05C1C009E172D /* NSCollectionLayoutDimension+Extension.swift */; };
+		64CA1EBC27B06B85009E172D /* SelectViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64CA1EBB27B06B85009E172D /* SelectViewCell.swift */; };
+		64CA1EBF27B06E35009E172D /* ApplyButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64CA1EBE27B06E34009E172D /* ApplyButton.swift */; };
+		64CA1EC227B06F6A009E172D /* ActionButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64CA1EC127B06F69009E172D /* ActionButton.swift */; };
 		64E4D12527ADEB6E0045F25B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64E4D12427ADEB6E0045F25B /* AppDelegate.swift */; };
 		64E4D12727ADEB6E0045F25B /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64E4D12627ADEB6E0045F25B /* SceneDelegate.swift */; };
 		64E4D12C27ADEB6E0045F25B /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 64E4D12A27ADEB6E0045F25B /* Main.storyboard */; };
@@ -70,6 +75,11 @@
 		64CA1E9F27B028B1009E172D /* SpinnerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpinnerView.swift; sourceTree = "<group>"; };
 		64CA1EA527B02B53009E172D /* LoadingSpinnerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingSpinnerView.swift; sourceTree = "<group>"; };
 		64CA1EAF27B048DF009E172D /* StateBasedSpinnerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StateBasedSpinnerView.swift; sourceTree = "<group>"; };
+		64CA1EB427B0529A009E172D /* UIDevice+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIDevice+Extension.swift"; sourceTree = "<group>"; };
+		64CA1EB827B05C1C009E172D /* NSCollectionLayoutDimension+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSCollectionLayoutDimension+Extension.swift"; sourceTree = "<group>"; };
+		64CA1EBB27B06B85009E172D /* SelectViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectViewCell.swift; sourceTree = "<group>"; };
+		64CA1EBE27B06E34009E172D /* ApplyButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApplyButton.swift; sourceTree = "<group>"; };
+		64CA1EC127B06F69009E172D /* ActionButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionButton.swift; sourceTree = "<group>"; };
 		64E4D12127ADEB6E0045F25B /* Edvora-iOS-Intern-Task.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Edvora-iOS-Intern-Task.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		64E4D12427ADEB6E0045F25B /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		64E4D12627ADEB6E0045F25B /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -154,6 +164,7 @@
 				64E4D15027ADFC230045F25B /* SelectButton.swift */,
 				64CA1E8927AF2CF4009E172D /* UniSelectView.swift */,
 				64817A7927AEF3FA0040BA81 /* MultiSelectView.swift */,
+				64CA1EBB27B06B85009E172D /* SelectViewCell.swift */,
 				64817A7C27AEF4360040BA81 /* TextButton.swift */,
 				64817A7F27AEF4A80040BA81 /* DoneButton.swift */,
 				64817A8227AEF4C10040BA81 /* ClearButton.swift */,
@@ -161,6 +172,8 @@
 				64CA1E9F27B028B1009E172D /* SpinnerView.swift */,
 				64CA1EA527B02B53009E172D /* LoadingSpinnerView.swift */,
 				64CA1EAF27B048DF009E172D /* StateBasedSpinnerView.swift */,
+				64CA1EBE27B06E34009E172D /* ApplyButton.swift */,
+				64CA1EC127B06F69009E172D /* ActionButton.swift */,
 				64E4D14927ADF4DD0045F25B /* ViewModel */,
 				64817A7227AEF3360040BA81 /* Errors */,
 			);
@@ -283,11 +296,13 @@
 		64E4D15727ADFEB40045F25B /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
+				64817A5B27AE9DAF0040BA81 /* Array+Extension.swift */,
+				64817A5E27AEAA240040BA81 /* String+Extension.swift */,
 				64E4D15827ADFEC60045F25B /* UIFont+Extension.swift */,
 				64E4D15B27ADFF0D0045F25B /* UIColor+Extension.swift */,
 				64E4D16227AE068A0045F25B /* CGFloat+Extension.swift */,
-				64817A5B27AE9DAF0040BA81 /* Array+Extension.swift */,
-				64817A5E27AEAA240040BA81 /* String+Extension.swift */,
+				64CA1EB427B0529A009E172D /* UIDevice+Extension.swift */,
+				64CA1EB827B05C1C009E172D /* NSCollectionLayoutDimension+Extension.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -373,8 +388,10 @@
 				64E4D15C27ADFF0D0045F25B /* UIColor+Extension.swift in Sources */,
 				64CA1EA027B028B1009E172D /* SpinnerView.swift in Sources */,
 				64E4D18127AE34610045F25B /* PresentationError.swift in Sources */,
+				64CA1EBC27B06B85009E172D /* SelectViewCell.swift in Sources */,
 				64E4D16B27AE25BE0045F25B /* ProductDto.swift in Sources */,
 				64E4D16E27AE263F0045F25B /* ProductModel.swift in Sources */,
+				64CA1EB927B05C1C009E172D /* NSCollectionLayoutDimension+Extension.swift in Sources */,
 				64E4D12727ADEB6E0045F25B /* SceneDelegate.swift in Sources */,
 				64817A6227AEBD370040BA81 /* FiltersDto.swift in Sources */,
 				64817A8027AEF4A80040BA81 /* DoneButton.swift in Sources */,
@@ -390,6 +407,7 @@
 				64817A7D27AEF4360040BA81 /* TextButton.swift in Sources */,
 				64817A8727AEF88E0040BA81 /* HorizontalSeparatorView.swift in Sources */,
 				64E4D16327AE068A0045F25B /* CGFloat+Extension.swift in Sources */,
+				64CA1EB527B0529A009E172D /* UIDevice+Extension.swift in Sources */,
 				64E4D13F27ADED8A0045F25B /* HomeRootView.swift in Sources */,
 				64E4D16027AE01ED0045F25B /* FiltersBarView.swift in Sources */,
 				64E4D15927ADFEC60045F25B /* UIFont+Extension.swift in Sources */,
@@ -397,9 +415,11 @@
 				64E4D16827AE13540045F25B /* ProductCell.swift in Sources */,
 				64817A5C27AE9DAF0040BA81 /* Array+Extension.swift in Sources */,
 				64E4D13B27ADECB80045F25B /* HomeVC.swift in Sources */,
+				64CA1EBF27B06E35009E172D /* ApplyButton.swift in Sources */,
 				64817A6527AEBDDE0040BA81 /* FiltersPopupView.swift in Sources */,
 				64817A5827AE9B260040BA81 /* BaseVC.swift in Sources */,
 				64CA1E8D27AF8F9D009E172D /* ImageVM.swift in Sources */,
+				64CA1EC227B06F6A009E172D /* ActionButton.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -121,10 +121,6 @@ final class UniSelectView: UIView {
         }
     }
     
-    override func didMoveToWindow() {
-        super.didMoveToWindow()
-        Logger.debug("didMoveToWindow")
-    }
 }
 
 // MARK: - UITableViewDelegate
@@ -132,11 +128,6 @@ final class UniSelectView: UIView {
 extension UniSelectView: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        guard selectedOption.isEmpty else {
-            tableView.deselectRow(at: indexPath, animated: false)
-            self.tableView(tableView, didDeselectRowAt: indexPath)
-            return
-        }
         selectedOption = options[indexPath.row]
         
         clearButton.isHidden = false
@@ -163,11 +154,10 @@ extension UniSelectView: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "BasicCell", for: indexPath)
+        let cell = tableView.dequeueReusableCell(withIdentifier: SelectViewCell.reuseIdentifier, for: indexPath) as! SelectViewCell
         
         let option = options[indexPath.row]
         
-        cell.backgroundColor = .clear
         cell.textLabel?.text = option
         
         return cell
@@ -235,7 +225,7 @@ extension UniSelectView {
         tableView.delegate = self
         tableView.dataSource = self
         
-        tableView.register(UITableViewCell.self, forCellReuseIdentifier: "BasicCell")
+        tableView.register(SelectViewCell.self, forCellReuseIdentifier: SelectViewCell.reuseIdentifier)
         
         // Constraint Configuration
         tableView.translatesAutoresizingMaskIntoConstraints = false
