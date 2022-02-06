@@ -23,6 +23,9 @@
 		64CA1E9027AF8FF4009E172D /* ImageUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64CA1E8F27AF8FF4009E172D /* ImageUseCase.swift */; };
 		64CA1E9427AF90B6009E172D /* HttpDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64CA1E9327AF90B6009E172D /* HttpDataSource.swift */; };
 		64CA1E9727AF9115009E172D /* NativeHttpDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64CA1E9627AF9114009E172D /* NativeHttpDataSource.swift */; };
+		64CA1EA027B028B1009E172D /* SpinnerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64CA1E9F27B028B1009E172D /* SpinnerView.swift */; };
+		64CA1EA627B02B54009E172D /* LoadingSpinnerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64CA1EA527B02B53009E172D /* LoadingSpinnerView.swift */; };
+		64CA1EB027B048DF009E172D /* StateBasedSpinnerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64CA1EAF27B048DF009E172D /* StateBasedSpinnerView.swift */; };
 		64E4D12527ADEB6E0045F25B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64E4D12427ADEB6E0045F25B /* AppDelegate.swift */; };
 		64E4D12727ADEB6E0045F25B /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64E4D12627ADEB6E0045F25B /* SceneDelegate.swift */; };
 		64E4D12C27ADEB6E0045F25B /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 64E4D12A27ADEB6E0045F25B /* Main.storyboard */; };
@@ -64,6 +67,9 @@
 		64CA1E8F27AF8FF4009E172D /* ImageUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageUseCase.swift; sourceTree = "<group>"; };
 		64CA1E9327AF90B6009E172D /* HttpDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HttpDataSource.swift; sourceTree = "<group>"; };
 		64CA1E9627AF9114009E172D /* NativeHttpDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NativeHttpDataSource.swift; sourceTree = "<group>"; };
+		64CA1E9F27B028B1009E172D /* SpinnerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpinnerView.swift; sourceTree = "<group>"; };
+		64CA1EA527B02B53009E172D /* LoadingSpinnerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingSpinnerView.swift; sourceTree = "<group>"; };
+		64CA1EAF27B048DF009E172D /* StateBasedSpinnerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StateBasedSpinnerView.swift; sourceTree = "<group>"; };
 		64E4D12127ADEB6E0045F25B /* Edvora-iOS-Intern-Task.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Edvora-iOS-Intern-Task.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		64E4D12427ADEB6E0045F25B /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		64E4D12627ADEB6E0045F25B /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -152,6 +158,9 @@
 				64817A7F27AEF4A80040BA81 /* DoneButton.swift */,
 				64817A8227AEF4C10040BA81 /* ClearButton.swift */,
 				64817A8627AEF88E0040BA81 /* HorizontalSeparatorView.swift */,
+				64CA1E9F27B028B1009E172D /* SpinnerView.swift */,
+				64CA1EA527B02B53009E172D /* LoadingSpinnerView.swift */,
+				64CA1EAF27B048DF009E172D /* StateBasedSpinnerView.swift */,
 				64E4D14927ADF4DD0045F25B /* ViewModel */,
 				64817A7227AEF3360040BA81 /* Errors */,
 			);
@@ -355,11 +364,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				64817A5427AE913A0040BA81 /* Logger.swift in Sources */,
+				64CA1EB027B048DF009E172D /* StateBasedSpinnerView.swift in Sources */,
 				64E4D14C27ADFA120045F25B /* ProductsHeaderView.swift in Sources */,
 				64817A7A27AEF3FA0040BA81 /* MultiSelectView.swift in Sources */,
+				64CA1EA627B02B54009E172D /* LoadingSpinnerView.swift in Sources */,
 				64E4D12527ADEB6E0045F25B /* AppDelegate.swift in Sources */,
 				64E4D15127ADFC230045F25B /* SelectButton.swift in Sources */,
 				64E4D15C27ADFF0D0045F25B /* UIColor+Extension.swift in Sources */,
+				64CA1EA027B028B1009E172D /* SpinnerView.swift in Sources */,
 				64E4D18127AE34610045F25B /* PresentationError.swift in Sources */,
 				64E4D16B27AE25BE0045F25B /* ProductDto.swift in Sources */,
 				64E4D16E27AE263F0045F25B /* ProductModel.swift in Sources */,

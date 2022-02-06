@@ -11,24 +11,39 @@ final class HomeRootView: UIView {
     
     // MARK: - Properties
     
-    private var serialQueue = DispatchQueue(label: "HomeRootView")
+    private var serialQueue = DispatchQueue(label: String(describing: self), qos: .userInitiated)
     
     private var productList: [ProductDto] = []
     
-    private var sections: [String] = []
-    private var productsMap: [String : [ProductDto]] = [:]
+    private var filteredProductSections: [String] = []
+    private var filteredProductMap: [String : [ProductDto]] = [:]
     
     private var filtersDto: FiltersDto!
     
     private var dataSource: UICollectionViewDiffableDataSource<String, ProductDto>!
     
+    private var isPreparingProducts: Bool = false {
+        didSet {
+            spinnerView.updateVisibility(isPreparingProducts, forState: .isPreparing)
+        }
+    }
+    
+    private var isApplyingFilters: Bool = false {
+        didSet {
+            spinnerView.updateVisibility(isApplyingFilters, forState: .isApplyingFilters)
+        }
+    }
+    
     // MARK: - Subviews
     
-    private var activityIndicator: UIActivityIndicatorView!
+    private var spinnerView: StateBasedSpinnerView!
+    
+    private var noRecordFoundLabel: UILabel!
+    
     private var filtersView: FiltersBarView!
     private var filtersPopupView: FiltersPopupView!
+    
     private var collectionView: CollectionView!
-    private var noRecordFoundLabel: UILabel!
     
     // MARK: - inits
     
@@ -48,62 +63,52 @@ final class HomeRootView: UIView {
     
     func setup() {
         // Create the Subviews
-        activityIndicator = UIActivityIndicatorView()
+        noRecordFoundLabel = UILabel()
         
         filtersView = FiltersBarView()
         filtersPopupView = FiltersPopupView()
+        
         collectionView = CollectionView(frame: .zero,
                                           collectionViewLayout: UICollectionViewFlowLayout())
-        
-        noRecordFoundLabel = UILabel()
         
         // Add the Subviews
         addSubview(filtersView)
         addSubview(collectionView)
         addSubview(noRecordFoundLabel)
-        addSubview(activityIndicator)
+        
+        spinnerView = StateBasedSpinnerView(containerView: self)
         
         // Setup the Subviews
         setupFiltersView()
         setupCollectionView()
         configureCollectionView()
         setupNoRecordFoundLabel()
-        setupActivityIndicator()
     }
+    
+    // MARK: - Helpers
     
     func reloadWith(list: [ProductDto]) {
         productList = list
         filtersDto = FiltersDto(from: productList)
         
-        refreshCollectionViewDataSoure()
-        
-        filtersView.isHidden = productList.isEmpty
-        collectionView.isHidden = productList.isEmpty
-        noRecordFoundLabel.isHidden = productList.isNotEmpty
+        prepareProducts(
+            onStarted: { [weak self] in
+                self?.isPreparingProducts = true
+            },
+            onCompleted: { [weak self] in
+                guard let self = self else { return }
+                
+                self.loadDataSource()
+                
+                self.filtersView.isHidden = self.filteredProductSections.isEmpty
+                self.collectionView.isHidden = self.filteredProductSections.isEmpty
+                self.noRecordFoundLabel.isHidden = self.filteredProductSections.isNotEmpty
+                
+                self.isPreparingProducts = false
+            }
+        )
     }
     
-    func onDataLoading(_ isLoading: Bool) {
-        if isLoading {
-            startActivityIndicator()
-        } else {
-            stopActivityIndicator()
-        }
-    }
-    
-    private func startActivityIndicator() {
-        filtersView.isHidden = true
-        collectionView.isHidden = true
-        
-        activityIndicator.startAnimating()
-        activityIndicator.isHidden = false
-    }
-    
-    private func stopActivityIndicator() {
-        filtersView.isHidden = false
-        collectionView.isHidden = false
-        
-        activityIndicator.stopAnimating()
-    }
 }
 
 // MARK: - FiltersBarViewDelegate
@@ -117,9 +122,97 @@ extension HomeRootView: FiltersBarViewDelegate {
     
     func onClearFiltersButtonTapped() {
         filtersDto.clearSelections()
-        filtersPopupView.reset()
-        filtersView.setClearButton(asHidden: true)
-        refreshCollectionViewDataSoure()
+        filtersPopupView.resetFilters()
+        filtersView.setClearButtonVisibility(isHidden: true)
+        
+        applyFiltersOnProductList(
+            onStarted: { [weak self] in
+                self?.isApplyingFilters = true
+            },
+            onCompleted: { [weak self] in
+                guard let self = self else { return }
+                
+                self.loadDataSource()
+                
+                self.collectionView.isHidden = self.filteredProductSections.isEmpty
+                self.noRecordFoundLabel.isHidden = self.filteredProductSections.isNotEmpty
+                
+                self.isApplyingFilters = false
+            }
+        )
+    }
+    
+}
+
+// MARK: - FiltersPopupViewDelegate
+
+extension HomeRootView: FiltersPopupViewDelegate {
+
+    func dismissFiltersPopup() {
+        filtersPopupView.removeFromSuperview()
+        
+        if filtersDto != filtersPopupView.filtersDto {
+            filtersDto = filtersPopupView.filtersDto
+            
+            filtersView.setClearButtonVisibility(isHidden: filtersDto.isEmpty)
+            
+            applyFiltersOnProductList(
+                onStarted: { [weak self] in
+                    self?.isApplyingFilters = true
+                },
+                onCompleted: { [weak self] in
+                    guard let self = self else { return }
+                    
+                    self.loadDataSource()
+                    
+                    self.collectionView.isHidden = self.filteredProductSections.isEmpty
+                    self.noRecordFoundLabel.isHidden = self.filteredProductSections.isNotEmpty
+                    
+                    self.isApplyingFilters = false
+                }
+            )
+        }
+    }
+    
+}
+
+// MARK: - Subviews Configurations
+
+extension HomeRootView {
+    
+    private func setupFiltersView() {
+        filtersView.isHidden = true
+        
+        filtersView.delegate = self
+        
+        // Constraint Configuration
+        filtersView.translatesAutoresizingMaskIntoConstraints = false
+        
+        let leading = filtersView.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: .screenLeadingPadding)
+        let trailing = filtersView.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: .screenTrailingPadding)
+        let top = filtersView.topAnchor.constraint(equalTo: self.topAnchor, constant: .screenTopPadding)
+        
+        NSLayoutConstraint.activate([
+            leading, trailing, top
+        ])
+    }
+    
+    private func setupNoRecordFoundLabel() {
+        noRecordFoundLabel.isHidden = true
+        
+        noRecordFoundLabel.text = "No Record Found!"
+        noRecordFoundLabel.font = UIFont.systemFont(ofSize: 20, weight: .bold)
+        noRecordFoundLabel.textColor = .hintColor
+        
+        // Constraints Configuration
+        noRecordFoundLabel.translatesAutoresizingMaskIntoConstraints = false
+        
+        let centerX = noRecordFoundLabel.centerXAnchor.constraint(equalTo: self.centerXAnchor)
+        let centerY = noRecordFoundLabel.centerYAnchor.constraint(equalTo: self.centerYAnchor)
+        
+        NSLayoutConstraint.activate([
+            centerX, centerY
+        ])
     }
     
     private func setupFiltersPopupView() {
@@ -138,78 +231,6 @@ extension HomeRootView: FiltersBarViewDelegate {
             leading, trailing, top, bottom
         ])
     }
-    
-}
-
-// MARK: - FiltersPopupViewDelegate
-
-extension HomeRootView: FiltersPopupViewDelegate {
-
-    func dismissFiltersPopup() {
-        filtersPopupView.removeFromSuperview()
-        
-        if filtersDto != filtersPopupView.filtersDto {
-            filtersDto = filtersPopupView.filtersDto
-            
-            filtersView.setClearButton(asHidden: filtersDto.isEmpty)
-            
-            refreshCollectionViewDataSoure()
-        }
-    }
-    
-}
-
-// MARK: - Subviews Configurations
-
-extension HomeRootView {
-    
-    private func setupFiltersView() {
-        filtersView.delegate = self
-        
-        // Constraint Configuration
-        filtersView.translatesAutoresizingMaskIntoConstraints = false
-        
-        let leading = filtersView.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: .screenLeadingPadding)
-        let trailing = filtersView.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: .screenTrailingPadding)
-        let top = filtersView.topAnchor.constraint(equalTo: self.topAnchor, constant: .screenTopPadding)
-        
-        NSLayoutConstraint.activate([
-            leading, trailing, top
-        ])
-    }
-    
-    private func setupNoRecordFoundLabel() {
-        noRecordFoundLabel.isHidden = true
-        noRecordFoundLabel.text = "No Record Found!"
-        noRecordFoundLabel.font = UIFont.systemFont(ofSize: 20, weight: .bold)
-        noRecordFoundLabel.textColor = .hintColor
-        
-        // Constraints Configuration
-        noRecordFoundLabel.translatesAutoresizingMaskIntoConstraints = false
-        
-        let centerX = noRecordFoundLabel.centerXAnchor.constraint(equalTo: self.centerXAnchor)
-        let centerY = noRecordFoundLabel.centerYAnchor.constraint(equalTo: self.centerYAnchor)
-        
-        NSLayoutConstraint.activate([
-            centerX, centerY
-        ])
-    }
-    
-    private func setupActivityIndicator() {
-        activityIndicator.stopAnimating()
-        activityIndicator.hidesWhenStopped = true
-        activityIndicator.transform = CGAffineTransform(scaleX: 2, y: 2)
-        
-        // Constraints Configuration
-        activityIndicator.translatesAutoresizingMaskIntoConstraints = false
-        
-        let centerX = activityIndicator.centerXAnchor.constraint(equalTo: self.centerXAnchor)
-        let centerY = activityIndicator.centerYAnchor.constraint(equalTo: self.centerYAnchor)
-        
-        NSLayoutConstraint.activate([
-            centerX, centerY
-        ])
-    }
 }
 
 // MARK: - Configure CollectionView
@@ -217,6 +238,8 @@ extension HomeRootView {
 extension HomeRootView {
     
     private func setupCollectionView() {
+        collectionView.isHidden = true
+        
         collectionView.backgroundColor = .clear
         collectionView.showsVerticalScrollIndicator = false
         
@@ -255,7 +278,7 @@ extension HomeRootView {
                 heightDimension: .estimated(20)
             )
         )
-                
+        
         let group = NSCollectionLayoutGroup.horizontal(
             layoutSize: NSCollectionLayoutSize(
                 widthDimension: .fractionalWidth(0.7),
@@ -316,55 +339,121 @@ extension HomeRootView {
             return view
         }
         
+        loadDataSourceWithEmptySnapshot()
+    }
+    
+    private func loadDataSourceWithEmptySnapshot() {
         let snapshot = NSDiffableDataSourceSnapshot<String, ProductDto>()
         dataSource.apply(snapshot, animatingDifferences: false)
     }
     
-    private func refreshCollectionViewDataSoure() {
-        let snapshot = NSDiffableDataSourceSnapshot<String, ProductDto>()
-        dataSource.apply(snapshot, animatingDifferences: false)
+    private func loadDataSource() {
+        loadDataSourceWithEmptySnapshot()
         
-        self.startActivityIndicator()
+        var snapshot = NSDiffableDataSourceSnapshot<String, ProductDto>()
+        
+        snapshot.appendSections(filteredProductSections)
+        
+        filteredProductMap.keys.forEach { section in
+            let products = filteredProductMap[section]!
+            snapshot.appendItems(products, toSection: section)
+        }
+        
+        dataSource.apply(snapshot, animatingDifferences: true)
+    }
+    
+    private func prepareProducts(onStarted: () -> Void,
+                                           onCompleted: @escaping () -> Void) {
+        onStarted()
         
         serialQueue.async { [weak self] in
-            guard let self = self else { return }
-            
-            let filteredProducts = self.filtersDto.applyTo(list: self.productList)
-//            Logger.debug(filteredProducts)
-            self.productsMap = self.toProductsMap(filteredProducts)
-            self.sections = self.productsMap.keys.sorted()
-            
-//            Logger.debug(self.productsMap[self.sections[0]])
-            
-            DispatchQueue.main.async { [weak self] in
-                guard let self = self else { return }
-                
-                var snapshot = NSDiffableDataSourceSnapshot<String, ProductDto>()
-                
-                snapshot.appendSections(self.sections)
-                self.productsMap.keys.forEach { section in
-                    snapshot.appendItems(self.productsMap[section]!, toSection: section)
-                }
-                
-                self.dataSource.apply(snapshot, animatingDifferences: true)
-                self.stopActivityIndicator()
-            }
+            self?._applyFiltersOnProductList()
+
+            DispatchQueue.main.async(execute: onCompleted)
         }
     }
     
-    private func toProductsMap(_ list: [ProductDto]) -> [String : [ProductDto]] {
-        var productsMap: [String : [ProductDto]] = [:]
+    private func applyFiltersOnProductList(onStarted: () -> Void,
+                                           onCompleted: @escaping () -> Void) {
+        onStarted()
         
-        for product in list {
-            if productsMap[product.name] == nil {
-                productsMap[product.name] = []
+        serialQueue.async { [weak self] in
+            self?._applyFiltersOnProductList()
+            
+            DispatchQueue.main.async(execute: onCompleted)
+        }
+    }
+    
+    private func _applyFiltersOnProductList() {
+        filteredProductMap = [:]
+
+        let filteredProducts = filtersDto.applyTo(list: self.productList)
+        
+        for product in filteredProducts {
+            if filteredProductMap[product.name] == nil {
+                filteredProductMap[product.name] = []
             }
             
-            productsMap[product.name]!.append(product)
+            filteredProductMap[product.name]!.append(product)
         }
         
-        return productsMap
+        filteredProductSections = filteredProductMap.keys.sorted()
     }
+    
+//    private func applyFiltersOnProductListThenRefreshDataSource() {
+//        let filteredProducts = self.filtersDto.applyTo(list: self.productList)
+//        //            Logger.debug(filteredProducts)
+//        self.filteredProductMap = self.toProductsMap(filteredProducts)
+//        self.filteredProductSections = self.filteredProductMap.keys.sorted()
+//
+//        //            Logger.debug(self.productsMap[self.sections[0]])
+//
+//        DispatchQueue.main.async { [weak self] in
+//            guard let self = self else { return }
+//            applyEmptySnapshot()
+//
+//            var snapshot = NSDiffableDataSourceSnapshot<String, ProductDto>()
+//
+//            snapshot.appendSections(self.filteredProductSections)
+//            self.filteredProductMap.keys.forEach { section in
+//                snapshot.appendItems(self.filteredProductMap[section]!, toSection: section)
+//            }
+//
+//            self.dataSource.apply(snapshot, animatingDifferences: true)
+//            self.stopActivityIndicator()
+//        }
+//    }
+    
+//    private func applySnapshot() {
+//        applyEmptySnapshot()
+//
+//        var snapshot = NSDiffableDataSourceSnapshot<String, ProductDto>()
+//
+//        snapshot.appendSections(self.filteredProductSections)
+//
+//        filteredProductMap.keys.forEach { section in
+//            let products = filteredProductMap[section]!
+//            snapshot.appendItems(products, toSection: section)
+//        }
+//
+//        dataSource.apply(snapshot, animatingDifferences: true)
+//
+//        isApplyingFilters = false
+//    }
+    
+//    private func toProductsMap(_ list: [ProductDto]) -> [String : [ProductDto]] {
+//        var productsMap: [String : [ProductDto]] = [:]
+//
+//        for product in list {
+//            if productsMap[product.name] == nil {
+//                productsMap[product.name] = []
+//            }
+//
+//            productsMap[product.name]!.append(product)
+//        }
+//
+//        return productsMap
+//    }
 }
 
 /*

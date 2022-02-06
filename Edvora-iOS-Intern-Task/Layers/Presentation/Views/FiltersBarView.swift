@@ -80,17 +80,10 @@ final class FiltersBarView: UIView {
     
     // MARK: - Helpers
     
-    func setClearButton(asHidden: Bool) {
-        clearButton.isHidden = asHidden
+    func setClearButtonVisibility(isHidden: Bool) {
+        clearButton.isHidden = isHidden
     }
     
-    func showClearButton() {
-        clearButton.isHidden = false
-    }
-    
-    func hideClearButton() {
-        clearButton.isHidden = true
-    }
 }
 
 // MARK: - Subviews Configurations

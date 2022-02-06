@@ -62,6 +62,8 @@ final class FiltersPopupView: UIView {
         setup()
     }
     
+    // MARK: - Setup
+    
     func setup() {
         // Create the Subviews
         overlayView = UIView()
@@ -147,98 +149,80 @@ final class FiltersPopupView: UIView {
     }
     
     @objc private func onProductsSelectButtonTapped() {
-        Logger.info("onProductCategoriesSelected")
-        guard visibleSelectView == nil else { return }
-        
         let selectView = MultiSelectView()
         visibleSelectView = selectView
         
         addSubview(selectView)
         
-        setupSelectView(selectView, accordingTo: productsSelectButton)
+        setupVisibleSelectView()
         
-        selectView.onSelectionDone = { [weak self] selectedProducts in
-            self?.filtersDto.selectedProducts = selectedProducts
-            
-            self?.productsSelectButton.setTitle(selectedProducts.joined(separator: ", "))
-            
-            self?.visibleSelectView?.removeFromSuperview()
-            self?.visibleSelectView = nil
-        }
+        selectView.onSelectionDone = handleSelectedProducts
         
         selectView.reloadWith(list: filtersDto.products, previousSelections: filtersDto.selectedProducts)
     }
     
-    private func setupSelectView(_ selectView: UIView, accordingTo selectButton: UIView) {
+    private func handleSelectedProducts(_ selectedProducts: [String]) {
+        filtersDto.selectedProducts = selectedProducts
         
-        // Constraint Configuration
-        selectView.translatesAutoresizingMaskIntoConstraints = false
+        productsSelectButton.setTitle(selectedProducts.joined(separator: ", "))
         
-        let leading = selectView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: -25)
-        let trailing = selectView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: 25)
-        let top = selectView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: -25)
-        let bottom = selectView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: 25)
-        
-        NSLayoutConstraint.activate([
-            leading, trailing, top, bottom
-            
-        ])
+        visibleSelectView?.removeFromSuperview()
+        visibleSelectView = nil
     }
     
     @objc private func onStateSelectButtonTapped() {
-        guard visibleSelectView == nil else { return }
-        
         let selectView = UniSelectView()
         visibleSelectView = selectView
         
         addSubview(selectView)
         
-        setupSelectView(selectView, accordingTo: stateSelectButton)
+        setupVisibleSelectView()
         
-        selectView.onSelectionDone = { [weak self] selectedState in
-            self?.filtersDto.selectedState = selectedState
-            self?.filtersDto.selectedCity = ""
-            
-            self?.stateSelectButton.setTitle(selectedState)
-            
-            self?.citySelectButton.setTitle("")
-            self?.citySelectButton.isEnabled = selectedState.isNotEmpty
-            
-            self?.visibleSelectView?.removeFromSuperview()
-            self?.visibleSelectView = nil
-        }
+        selectView.onSelectionDone = handleSelectedState
                 
         selectView.reloadWith(list: states, previousSelection: filtersDto.selectedState)
     }
     
-    @objc private func onCitySelectButtonTapped() {
-        Logger.info("onCitySelectButtonTapped")
+    private func handleSelectedState(_ selectedState: String) {
+        filtersDto.selectedState = selectedState
+        filtersDto.selectedCity = ""
         
-        guard visibleSelectView == nil,
-              filtersDto.selectedState.isNotEmpty else { return }
+        stateSelectButton.setTitle(selectedState)
+        
+        citySelectButton.setTitle("")
+        citySelectButton.isEnabled = selectedState.isNotEmpty
+        
+        visibleSelectView?.removeFromSuperview()
+        visibleSelectView = nil
+    }
+    
+    @objc private func onCitySelectButtonTapped() {
+        guard filtersDto.selectedState.isNotEmpty else { return }
         
         let selectView = UniSelectView()
         visibleSelectView = selectView
         
         addSubview(selectView)
         
-        setupSelectView(selectView, accordingTo: citySelectButton)
+        setupVisibleSelectView()
         
-        selectView.onSelectionDone = { [weak self] selectedCity in
-            self?.filtersDto.selectedCity = selectedCity
-            
-            self?.citySelectButton.setTitle(selectedCity)
-            
-            self?.visibleSelectView?.removeFromSuperview()
-            self?.visibleSelectView = nil
-        }
+        selectView.onSelectionDone = handleSelectedCity
         
         selectView.reloadWith(list: cities, previousSelection: filtersDto.selectedCity)
     }
     
+    private func handleSelectedCity(_ selectedCity: String) {
+        filtersDto.selectedCity = selectedCity
+        
+        citySelectButton.setTitle(selectedCity)
+        
+        visibleSelectView?.removeFromSuperview()
+        visibleSelectView = nil
+    }
+    
     // MARK: - Helpers
     
-    func reset() {
+    func resetFilters() {
         filtersDto.clearSelections()
         productsSelectButton.reset()
         stateSelectButton.reset()
@@ -336,6 +320,21 @@ extension FiltersPopupView {
         let trailing = selectButtonStack.trailingAnchor.constraint(equalTo: headerLabel.trailingAnchor)
         let top = selectButtonStack.topAnchor.constraint(equalTo: headerSeparator.bottomAnchor, constant: 35)
         let bottom = selectButtonStack.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: .filtersViewContentBottomPadding)
+        
+        NSLayoutConstraint.activate([
+            leading, trailing, top, bottom
+        ])
+    }
+    
+    private func setupVisibleSelectView() {
+        
+        // Constraint Configuration
+        visibleSelectView!.translatesAutoresizingMaskIntoConstraints = false
+        
+        let leading = visibleSelectView!.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: -25)
+        let trailing = visibleSelectView!.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: 25)
+        let top = visibleSelectView!.topAnchor.constraint(equalTo: contentView.topAnchor, constant: -25)
+        let bottom = visibleSelectView!.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: 25)
         
         NSLayoutConstraint.activate([
             leading, trailing, top, bottom

@@ -18,7 +18,8 @@ class HomeVC: BaseVC {
     
     // MARK: - Subviews
     
-    var rootView: HomeRootView!
+    private var loadingSpinner: LoadingSpinnerView!
+    private var rootView: HomeRootView!
     
     // MARK: - inits
     
@@ -33,6 +34,8 @@ class HomeVC: BaseVC {
         super.loadView()
         
         rootView = HomeRootView()
+        loadingSpinner = LoadingSpinnerView(containerView: rootView)
+        
         view.addSubview(rootView)
     }
     
@@ -41,13 +44,15 @@ class HomeVC: BaseVC {
 
         setupViews()
         setupViewModel()
+        
+        fetchProductList()
     }
 
     // MARK: - ViewModel Setup
     
     private func setupViewModel() {
         vm.loadingPublisher
-            .sink(receiveValue: rootView.onDataLoading(_:))
+            .assign(to: \.isShown, on: loadingSpinner)
             .store(in: &subscriptions)
         
         vm.dataPublisher
@@ -57,7 +62,11 @@ class HomeVC: BaseVC {
         vm.errorPublisher
             .sink(receiveValue: showErrorAlert(_:))
             .store(in: &subscriptions)
-        
+    }
+    
+    // MARK: - Helpers
+    
+    private func fetchProductList() {
         vm.fetchProductList()
     }
 }

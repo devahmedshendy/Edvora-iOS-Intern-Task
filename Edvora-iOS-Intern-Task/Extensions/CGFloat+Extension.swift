@@ -8,7 +8,7 @@
 import UIKit
 
 extension CGFloat {
-    static let cornerRadius: CGFloat = 5
+    static let cornerRadius: CGFloat = 10
     static let filterViewCornerRadius: CGFloat = 15
     
     static let screenTopPadding: CGFloat = 20

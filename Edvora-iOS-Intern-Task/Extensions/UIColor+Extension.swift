@@ -18,4 +18,7 @@ extension UIColor {
     static let filtersBackgroundColor = UIColor(red: 0.075, green: 0.075, blue: 0.075, alpha: 1)
     static let doneColor = systemBlue
     static let clearColor = UIColor(red: 0.918, green: 0.263, blue: 0.204, alpha: 1)
+    
+    static let spinnerBackgroundColor = UIColor(red: 0.243, green: 0.247, blue: 0.255, alpha: 1)
+    static let spinnerForegroundColor = UIColor(red: 1, green: 1, blue: 1, alpha: 0.87)
 }

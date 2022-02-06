@@ -42,10 +42,10 @@ final class HomeVM {
         loadingPublisher.send(false)
         dataPublisher.send(list)
     }
-        
+    
     private func handleOnError(error: PresentationError) {
         loadingPublisher.send(false)
-        dataPublisher.send([])
         errorPublisher.send(error.message)
     }
+    
 }
