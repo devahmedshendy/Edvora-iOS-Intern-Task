@@ -239,6 +239,7 @@ final class FiltersPopupView: UIView {
         productsSelectButton.reset()
         stateSelectButton.reset()
         citySelectButton.reset()
+        citySelectButton.isEnabled = false
     }
 }
 
