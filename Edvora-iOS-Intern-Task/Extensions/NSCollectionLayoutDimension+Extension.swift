@@ -12,7 +12,7 @@ extension NSCollectionLayoutDimension {
     // MARK: - ProductCell
     
     static var productCellGroupWidthDimention: NSCollectionLayoutDimension {
-        .fractionalWidth(UIDevice.iPad ? 0.35 : 0.6)
+        .fractionalWidth(UIDevice.iPad ? 0.40 : 0.65)
     }
     
 }

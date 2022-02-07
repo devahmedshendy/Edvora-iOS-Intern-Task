@@ -345,13 +345,20 @@ extension HomeRootView {
                 heightDimension: .estimated(20)
             )
         )
-        
+                
         let group = NSCollectionLayoutGroup.horizontal(
             layoutSize: NSCollectionLayoutSize(
                 widthDimension: .productCellGroupWidthDimention,
                 heightDimension: .estimated(20)
             ),
             subitem: item, count: 1
+        )
+        
+        group.contentInsets = NSDirectionalEdgeInsets(
+            top: 0,
+            leading: 0,
+            bottom: 0,
+            trailing: 20
         )
                 
         let header = NSCollectionLayoutBoundarySupplementaryItem(
@@ -366,7 +373,6 @@ extension HomeRootView {
         let section = NSCollectionLayoutSection(group: group)
         section.boundarySupplementaryItems = [header]
         section.orthogonalScrollingBehavior = .continuous
-        section.interGroupSpacing = 20
         section.contentInsets = NSDirectionalEdgeInsets(
             top: .productCollectionTopInset,
             leading: .productCollectionLeadingInset,
