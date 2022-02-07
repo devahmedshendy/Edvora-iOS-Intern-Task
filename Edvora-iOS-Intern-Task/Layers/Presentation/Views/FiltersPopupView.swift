@@ -175,9 +175,10 @@ final class FiltersPopupView: UIView {
     }
     
     private func handleSelectedProducts(_ selectedProducts: [String]) {
-        filtersDto.selectedProducts = selectedProducts
-        
-        productsSelectButton.setTitle(selectedProducts.joined(separator: ", "))
+        if filtersDto.selectedProducts != selectedProducts {
+            filtersDto.selectedProducts = selectedProducts
+            productsSelectButton.setTitle(selectedProducts.joined(separator: ", "))
+        }
         
         visibleSelectView?.removeFromSuperview()
         visibleSelectView = nil
@@ -197,13 +198,15 @@ final class FiltersPopupView: UIView {
     }
     
     private func handleSelectedState(_ selectedState: String) {
-        filtersDto.selectedState = selectedState
-        filtersDto.selectedCity = ""
-        
-        stateSelectButton.setTitle(selectedState)
-        
-        citySelectButton.setTitle("")
-        citySelectButton.isEnabled = selectedState.isNotEmpty
+        if filtersDto.selectedState != selectedState {
+            filtersDto.selectedState = selectedState
+            filtersDto.selectedCity = ""
+            
+            stateSelectButton.setTitle(selectedState)
+            
+            citySelectButton.setTitle("")
+            citySelectButton.isEnabled = selectedState.isNotEmpty
+        }
         
         visibleSelectView?.removeFromSuperview()
         visibleSelectView = nil
@@ -225,9 +228,10 @@ final class FiltersPopupView: UIView {
     }
     
     private func handleSelectedCity(_ selectedCity: String) {
-        filtersDto.selectedCity = selectedCity
-        
-        citySelectButton.setTitle(selectedCity)
+        if filtersDto.selectedCity != selectedCity {
+            filtersDto.selectedCity = selectedCity
+            citySelectButton.setTitle(selectedCity)
+        }
         
         visibleSelectView?.removeFromSuperview()
         visibleSelectView = nil
