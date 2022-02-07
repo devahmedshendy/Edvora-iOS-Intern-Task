@@ -23,6 +23,7 @@ final class FiltersPopupView: UIView {
             productsSelectButton.setTitle(filtersDto.selectedProducts.joined(separator: ", "))
             stateSelectButton.setTitle(filtersDto.selectedState)
             citySelectButton.setTitle(filtersDto.selectedCity)
+            citySelectButton.isEnabled = filtersDto.selectedCity.isNotEmpty
         }
     }
     
