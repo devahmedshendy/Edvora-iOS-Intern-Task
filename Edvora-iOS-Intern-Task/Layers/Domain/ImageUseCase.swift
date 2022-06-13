@@ -11,11 +11,11 @@ final class ImageUseCase {
     
     // MARK: - Properties
     
-    private let remote: HttpDataSource!
+    private let remote: HttpRepository!
     
     // MARK: - inits
     
-    init(networkDataSource: HttpDataSource) {
+    init(networkDataSource: HttpRepository) {
         remote = networkDataSource
     }
     

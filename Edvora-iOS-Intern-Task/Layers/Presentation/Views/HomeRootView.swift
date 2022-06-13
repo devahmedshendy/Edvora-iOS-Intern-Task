@@ -393,7 +393,7 @@ extension HomeRootView {
             
             cell.vm = ImageVM(
                 imageUseCase: ImageUseCase(
-                    networkDataSource: NativeHttpDataSource()
+                    networkDataSource: NativeHttpRepository()
                 )
             )
             cell.dto = productDto

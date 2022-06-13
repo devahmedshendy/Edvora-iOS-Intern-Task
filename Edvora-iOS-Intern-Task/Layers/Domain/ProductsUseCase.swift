@@ -11,11 +11,11 @@ final class ProductsUseCase {
     
     // MARK: - Properties
     
-    private let api: ApiDataSource!
+    private let api: ApiRespository!
     
     // MARK: - inits
     
-    init(apiDataSource: ApiDataSource) {
+    init(apiDataSource: ApiRespository) {
         api = apiDataSource
     }
     

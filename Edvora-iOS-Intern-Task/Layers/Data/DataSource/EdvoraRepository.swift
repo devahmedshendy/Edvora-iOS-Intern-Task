@@ -1,5 +1,5 @@
 //
-//  EdvoraDataSource.swift
+//  EdvoraRepository.swift
 //  Edvora-iOS-Intern-Task
 //
 //  Created by Ahmed Shendy on 2/5/22.
@@ -8,7 +8,7 @@
 import Foundation
 import Combine
 
-final class EdvoraDataSource: ApiDataSource {
+final class EdvoraRepository: ApiRespository {
     
     // MARK: - Properties
     
@@ -63,7 +63,7 @@ final class EdvoraDataSource: ApiDataSource {
     
 }
 
-extension EdvoraDataSource {
+extension EdvoraRepository {
     
     private struct ApiUtility {
         private static let baseUrl = "https://assessment-edvora.herokuapp.com"

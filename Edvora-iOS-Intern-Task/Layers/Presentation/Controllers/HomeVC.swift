@@ -138,7 +138,7 @@ extension HomeVC {
 extension HomeVC {
     
     static func initialize() -> HomeVC {
-        let remote = EdvoraDataSource()
+        let remote = EdvoraRepository()
         let productsUseCase = ProductsUseCase(apiDataSource: remote)
         let vm = HomeVM(productsUseCase: productsUseCase)
         
